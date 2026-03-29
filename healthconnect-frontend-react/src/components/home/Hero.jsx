@@ -44,7 +44,8 @@ const Hero = () => {
 
           {/* CARD FLOTTANTE */}
           <div className="absolute bottom-4 left-4 bg-white p-4 rounded-xl shadow-md w-64">
-            <p className="text-sm font-semibold mb-1">Dr. Sarah Ndiaye</p>
+            <p className="text-sm font-semibold mb-1">Dr. Ndiaye</p>
+            
             <p className="text-xs text-gray-500 mb-2">
               Médecin généraliste
             </p>
