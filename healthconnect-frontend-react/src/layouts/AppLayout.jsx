@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";   // navbar avant login
 import Sidebar from "./Sidebar"; // sidebar après login
+import Footer from "./Footer";
 
 const AppLayout = ({ children }) => {
   const { user } = useAuth();
@@ -24,6 +25,7 @@ const AppLayout = ({ children }) => {
         <main className="flex-1 p-6">
           {children}
         </main>
+      <Footer />
       </div>
     </div>
   );

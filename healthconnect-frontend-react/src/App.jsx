@@ -2,9 +2,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import { AuthProvider } from "./context/AuthContext";
-import "./index.css";
+import "./App.css";
 
 import Home from "./pages/Home";
+import Login from "./pages/Login"
 
 
 function App() {
@@ -15,9 +16,14 @@ function App() {
           <Routes>
             {/* Routes publiques */}
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+
+
+    
 
           </Routes>
         </AppLayout>
+        
       </Router>
     </AuthProvider>
   );

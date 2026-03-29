@@ -37,10 +37,6 @@ const Hero = () => {
                         </ul>
                     </div>
                 </div>
-
-                <p className="text-center text-xs text-gray-400 mt-8">
-                    © 2024 MediConnect. Votre santé, à distance.
-                </p>
             </footer>
         </div>
     );

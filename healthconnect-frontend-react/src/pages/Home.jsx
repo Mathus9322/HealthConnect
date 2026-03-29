@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 import React from "react";
-// import Hero from "../components/Hero";
-// import ServicesSection from "../components/ServicesSection";
+import Hero from "../components/home/Hero";
+import ServicesSection from "../components/home/ServicesSection";
 
 const Home = () => {
   return (
@@ -9,10 +9,10 @@ const Home = () => {
       
 
       {/* HERO SECTION */}
-      {/* <Hero /> */}
+      <Hero />
 
       {/* SERVICES */}
-      {/* <ServicesSection /> */}
+      <ServicesSection />
 
     </div>
   );
