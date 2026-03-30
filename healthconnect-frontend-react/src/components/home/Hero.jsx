@@ -1,7 +1,28 @@
 import React from "react";
+import api from "../../api/axios";
+import { useEffect } from "react";
 
 
 const Hero = () => {
+
+  const [doctors, setDoctors] = React.useState([]);
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const res = await api.get("/doctors");
+        setDoctors(res.data);
+      } catch (error) {
+        console.error("Erreur chargement médecins", error);
+      }
+    };
+    fetchDoctors();
+  }, []);
+
+  const mostExperienced = doctors.reduce((max, doc) => {
+    return doc.experience > max.experience ? doc : max;
+  }, { experience: 0 });
+  
+
   return (
     <section className="bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
@@ -44,10 +65,10 @@ const Hero = () => {
 
           {/* CARD FLOTTANTE */}
           <div className="absolute bottom-4 left-4 bg-white p-4 rounded-xl shadow-md w-64">
-            <p className="text-sm font-semibold mb-1">Dr. Ndiaye</p>
+            <p className="text-sm font-semibold mb-1">{mostExperienced.user.name}</p>
             
             <p className="text-xs text-gray-500 mb-2">
-              Médecin généraliste
+              {mostExperienced.specialty} - {mostExperienced.experience} ans d'expérience
             </p>
 
             <button className="text-teal-600 text-xs font-medium">
@@ -55,6 +76,19 @@ const Hero = () => {
             </button>
           </div>
         </div>
+
+        {/* MÉDECIN AVEC PLUS D'EXPÉRIENCE */}
+        {doctors && doctors.length > 0 && (
+          <div className="mt-12 p-6 bg-white rounded-xl shadow-md">
+            <h2 className="text-2xl font-bold mb-4">Notre expert</h2>
+            {Math.max(...doctors.map(doc => doc.experience)) && (
+          <div>
+            <p className="font-semibold">{mostExperienced.user.name}</p>
+            <p className="text-gray-600">{mostExperienced.experience} ans d'expérience</p>
+          </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

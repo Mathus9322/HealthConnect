@@ -10,26 +10,30 @@ const DoctorCard = ({ doctor }) => {
       <div className="flex gap-4 mb-6">
         <img
           src={doctor.image || "https://randomuser.me/api/portraits/men/1.jpg"}
-          alt={doctor.name}
+          alt={doctor.user.name}
           className="w-24 h-24 rounded-xl object-cover"
         />
         <div>
-          <h3 className="text-lg font-bold">Dr. {doctor.name}</h3>
+          <h3 className="text-lg font-bold">{doctor.user.name}</h3>
           <p className="text-teal-600 text-sm">{doctor.specialty || "Médecin"}</p>
-          <div className="text-yellow-500 text-sm mt-2">⭐ {doctor.rating || 4.5}</div>
+          <div className="text-teal-800 text-sm mt-2">⭐ {doctor.rating || 4.5}</div>
         </div>
       </div>
+      {/* bio */}
+      <p className="text-gray-600 text-sm mb-6 flex-1">
+        {doctor.bio || "Médecin passionné avec plus de 10 ans d'expérience dans le domaine de la santé."}
+      </p>
 
       {/* INFOS */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="bg-gray-100 p-3 rounded-xl text-center">
           <p className="text-xs text-gray-500">Expérience</p>
-          <p className="font-bold">{doctor.experience || "5 ans"}</p>
+          <p className="font-bold">{doctor.experience || "5"} <span className="text-teal-900">ans</span></p>
         </div>
 
         <div className="bg-gray-100 p-3 rounded-xl text-center">
           <p className="text-xs text-gray-500">Consultation</p>
-          <p className="font-bold">{doctor.price || "50€"}</p>
+          <p className="font-bold">{doctor.price || "50"} <span className="text-teal-900">€</span></p>
         </div>
       </div>
 

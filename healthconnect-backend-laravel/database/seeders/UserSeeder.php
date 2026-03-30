@@ -10,6 +10,8 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+
+
         // Médecins
         $doctors = [
             [
@@ -24,16 +26,31 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
+            [
+                'name' => 'Dr. Emily Davis',
+                'email' => 'emily.davis@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'doctor',
+            ],
         ];
+
+        $specialties = ['Cardiology', 'Dermatology', 'Pediatrics'];
+        $bios = [
+            'Médecin passionné avec plus de 10 ans d\'expérience dans le domaine de la santé.',
+            'Spécialisé en dermatologie, avec une approche centrée sur le patient.',
+            'Pédiatre dévoué, aimant travailler avec les enfants et leurs familles.',
+        ];
+        $experiences = ['10', '15', '20'];
+        $prices = [50, 75, 100];
 
         foreach ($doctors as $doc) {
             $user = User::create($doc);
             $user->doctorProfile()->create([
-                'specialty' => 'Cardiology',
-                'experience' => '10',
-                'bio' => 'Experienced cardiologist',
+                'specialty' => $specialties[array_rand($specialties)],
+                'experience' => $experiences[array_rand($experiences)],
+                'bio' => $bios[array_rand($bios)],
                 'avatar' => null,
-                'price' => 50,
+                'price' => $prices[array_rand($prices)],
             ]);
         }
 
