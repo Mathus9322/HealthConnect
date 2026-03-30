@@ -14,6 +14,7 @@ import Doctor from "./pages/Doctors";
 
 // patient
 import PatientAppointment from "./pages/patient/PatientAppointments";
+import PatientDashboard from "./pages/patient/PatientDashboard";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 
 
             {/* Routes protégées pour tous les utilisateurs connectés */}
+          
             <Route
               path="/patient/appointments"
               element={
@@ -40,6 +42,14 @@ function App() {
               }
             />
 
+              <Route
+              path="/dashboard/patient"
+              element={
+                <ProtectedRoute>
+                  <PatientDashboard />
+                </ProtectedRoute>
+              }
+            />
 
 
 

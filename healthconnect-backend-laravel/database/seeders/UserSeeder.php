@@ -54,6 +54,13 @@ class UserSeeder extends Seeder
             ]);
         }
 
+        User::create([
+            'name' => 'Mathus',
+            'email' => 'admin@test.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin'
+        ]);
+
         // Patients
         $patients = [
             [
@@ -71,7 +78,19 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($patients as $pat) {
-            User::create($pat); // PatientProfile sera créé automatiquement par l'observer
+            $patient = User::create($pat);
+            $patient->patientProfile()->create([
+                'birth_date' => null,
+                'gender' => null,
+                'phone' => null,
+                'address' => null,
+                'blood_group' => null,
+                'allergies' => null,
+                'chronic_diseases' => null,
+                'current_treatment' => null,
+                'medical_history' => null,
+                'emergency_contact' => null,
+            ]);
         }
     }
 }
