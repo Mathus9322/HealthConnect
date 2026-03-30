@@ -2,12 +2,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login"
 import Register from "./pages/Register";
 import Doctor from "./pages/Doctors";
+
+
+// patient
+import PatientAppointment from "./pages/patient/PatientAppointments";
 
 
 function App() {
@@ -20,14 +26,26 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/doctors" element={<Doctor/>} />
+            <Route path="/doctors" element={<Doctor />} />
 
 
-    
+
+            {/* Routes protégées pour tous les utilisateurs connectés */}
+            <Route
+              path="/patient/appointments"
+              element={
+                <ProtectedRoute>
+                  <PatientAppointment />
+                </ProtectedRoute>
+              }
+            />
+
+
+
 
           </Routes>
         </AppLayout>
-        
+
       </Router>
     </AuthProvider>
   );
