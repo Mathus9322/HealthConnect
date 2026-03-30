@@ -1,11 +1,13 @@
 import React from "react";
 import api from "../../api/axios";
 import { useEffect } from "react";
+import { Loader } from "lucide-react";
 
 
 const Hero = () => {
 
   const [doctors, setDoctors] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -13,6 +15,8 @@ const Hero = () => {
         setDoctors(res.data);
       } catch (error) {
         console.error("Erreur chargement médecins", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchDoctors();
@@ -21,6 +25,17 @@ const Hero = () => {
   const mostExperienced = doctors.reduce((max, doc) => {
     return doc.experience > max.experience ? doc : max;
   }, { experience: 0 });
+
+  if(loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader className="animate-spin text-teal-600" size={32} />
+          <p className="text-gray-600 font-medium">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
   
 
   return (
@@ -55,12 +70,13 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* IMAGE */}
+        {/* MÉDECIN AVEC PLUS D'EXPÉRIENCE */}
+
         <div className="relative">
           <img
-            src="https://images.unsplash.com/photo-1582750433449-648ed127bb54"
+            src={mostExperienced.avatar || "https://images.unsplash.com/photo-1582750433449-648ed127bb54"}
             alt="Médecin professionnel"
-            className="rounded-2xl shadow-lg"
+            className="rounded-2xl shadow-lg object-cover w-full h-96"
           />
 
           {/* CARD FLOTTANTE */}
@@ -77,18 +93,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* MÉDECIN AVEC PLUS D'EXPÉRIENCE */}
-        {doctors && doctors.length > 0 && (
-          <div className="mt-12 p-6 bg-white rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold mb-4">Notre expert</h2>
-            {Math.max(...doctors.map(doc => doc.experience)) && (
-          <div>
-            <p className="font-semibold">{mostExperienced.user.name}</p>
-            <p className="text-gray-600">{mostExperienced.experience} ans d'expérience</p>
-          </div>
-            )}
-          </div>
-        )}
       </div>
     </section>
   );
