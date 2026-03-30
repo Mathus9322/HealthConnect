@@ -1,7 +1,6 @@
 <?php
 
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,7 +13,8 @@ use App\Http\Controllers\{
     MessageController,
     PrescriptionController
 };
-use Termwind\Components\Raw;
+
+
 
 Route::get('/test', function () {
     return "API OK";

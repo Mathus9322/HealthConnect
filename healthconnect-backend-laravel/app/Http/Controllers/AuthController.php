@@ -16,15 +16,14 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'role' => 'required|in:patient,doctor'
+            'password' => 'required|min:6|confirmed',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $request->role ?? 'patient'
         ]);
 
         // Create profile based on role
@@ -37,7 +36,13 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json($user);
+        // Create token for immediate login
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     // 🔹 Login

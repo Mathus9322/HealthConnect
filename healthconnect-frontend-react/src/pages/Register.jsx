@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import api from "../api/axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, User } from "lucide-react";
@@ -15,31 +15,25 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  //   try {
-  //     const res = await api.post("/register", {
-  //       name,
-  //       email,
-  //       password,
-  //       password_confirmation,
-  //     });
+    try {
+      const res = await api.post("/register", {
+        name,
+        email,
+        password,
+        password_confirmation,
+      });
 
-  //     const token = res.data.token;
-
-  //     const userRes = await api.get("/profile", {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-
-  //     login(userRes.data, token);
-
-  //     navigate("/");
-  //   } catch (err) {
-  //     console.log(err.response);
-  //     setError("Erreur lors de l'inscription");
-  //   }
-  // };
+      
+      login(res.data.user, res.data.token);
+      navigate("/");
+    } catch (err) {
+      console.log(err.response);
+      setError("Erreur lors de l'inscription");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -51,52 +45,52 @@ const Register = () => {
 
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
 
-        <form >
+        <form onSubmit={handleSubmit}>
 
           {/* NAME */}
           <div className="mb-4 flex items-center border rounded-lg px-3">
-            <User className="text-gray-400 mr-2" size={18}/>
+            <User className="text-gray-400 mr-2" size={18} />
             <input
               type="text"
               placeholder="Nom"
               value={name}
-              onChange={(e)=>setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               className="w-full py-2 outline-none"
             />
           </div>
 
           {/* EMAIL */}
           <div className="mb-4 flex items-center border rounded-lg px-3">
-            <Mail className="text-gray-400 mr-2" size={18}/>
+            <Mail className="text-gray-400 mr-2" size={18} />
             <input
               type="email"
               placeholder="Email"
               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full py-2 outline-none"
             />
           </div>
 
           {/* PASSWORD */}
           <div className="mb-4 flex items-center border rounded-lg px-3">
-            <Lock className="text-gray-400 mr-2" size={18}/>
+            <Lock className="text-gray-400 mr-2" size={18} />
             <input
               type="password"
               placeholder="Mot de passe"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full py-2 outline-none"
             />
           </div>
 
           {/* CONFIRM */}
           <div className="mb-6 flex items-center border rounded-lg px-3">
-            <Lock className="text-gray-400 mr-2" size={18}/>
+            <Lock className="text-gray-400 mr-2" size={18} />
             <input
               type="password"
               placeholder="Confirmer mot de passe"
               value={password_confirmation}
-              onChange={(e)=>setPasswordConfirmation(e.target.value)}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               className="w-full py-2 outline-none"
             />
           </div>

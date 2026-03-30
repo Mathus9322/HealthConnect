@@ -1,11 +1,47 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
 
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      // Appel login API
+      const res = await api.post("/login", form);
+
+      const token = res.data.token;
+      const user = res.data.user;
+
+      // Sauvegarde dans AuthContext
+      login(user, token);
+
+      // Redirection selon rôle
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.status === 401) {
+        setError("Email ou mot de passe incorrect");
+      } else {
+        setError("Erreur du serveur. Réessayez plus tard.");
+      }
+    }
+  };
+
   const [showPassword, setShowPassword] = useState(false);
-  const [form] = useState({ email: "", password: "" });
-  const [error ] = useState("");
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -25,7 +61,7 @@ const Login = () => {
                 </div>
                 <span className="text-2xl font-bold text-teal-700">HealthConnect</span>
               </div>
-              <h2 className="text-4xl font-extrabold mb-6">L'excellence clinique,<br/>simplifiée.</h2>
+              <h2 className="text-4xl font-extrabold mb-6">L'excellence clinique,<br />simplifiée.</h2>
               <p className="text-gray-600 mb-8">
                 Accédez à votre espace sécurisé pour gérer vos rendez-vous et vos dossiers médicaux.
               </p>
@@ -45,7 +81,7 @@ const Login = () => {
                 <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
               )}
 
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* EMAIL */}
                 <div>
                   <label className="block text-sm mb-2">Adresse e-mail</label>
@@ -53,7 +89,7 @@ const Login = () => {
                     type="email"
                     name="email"
                     value={form.email}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     placeholder="nom@exemple.com"
                     className="w-full px-5 py-4 rounded-xl bg-gray-100 focus:ring-2 focus:ring-teal-500 outline-none"
                     required
@@ -71,7 +107,7 @@ const Login = () => {
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={form.password}
-                      // onChange={handleChange}
+                      onChange={handleChange}
                       placeholder="••••••••"
                       className="w-full px-5 py-4 rounded-xl bg-gray-100 focus:ring-2 focus:ring-teal-500 outline-none"
                       required
@@ -93,6 +129,7 @@ const Login = () => {
                 {/* BUTTON */}
                 <button
                   type="submit"
+
                   className="w-full bg-gradient-to-r from-teal-700 to-teal-500 text-white py-4 rounded-full font-bold text-lg hover:scale-105 transition"
                 >
                   Se connecter
@@ -110,10 +147,6 @@ const Login = () => {
 
         </div>
       </main>
-
-      <footer className="text-center text-xs text-gray-400 py-6">
-        © 2026 MediConnect — Tous droits réservés
-      </footer>
     </div>
   );
 };
