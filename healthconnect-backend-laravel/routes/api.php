@@ -36,10 +36,13 @@ Route::put('/patient/{user_id}', [PatientController::class, 'update']);
 
 // Appointments
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/appointments', [AppointmentController::class, 'store']); // Créer un RDV
-    Route::get('/appointments', [AppointmentController::class, 'patientAppointments']); // RDV du patient connecté
-    Route::put('/appointments/{id}', [AppointmentController::class, 'updateStatus']); // Changer statut
+    Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::get('/appointments', [AppointmentController::class, 'patientAppointments']);
+    Route::put('/appointments/{id}', [AppointmentController::class, 'updateStatus']);
 });
+
+// 🔥 AJOUT ICI
+Route::get('/booked-slots/{doctor_id}/{date}', [AppointmentController::class, 'bookedSlots']);
 // Messages
 Route::post('/messages', [MessageController::class, 'send']);
 Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);

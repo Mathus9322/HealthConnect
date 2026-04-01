@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string('specialty');
             $table->integer('experience')->nullable();
             $table->text('bio')->nullable();
-            $table->string('avatar')->nullable();
             $table->decimal('price', 8, 2)->nullable();
+            $table->json('available_time')->nullable();
             $table->timestamps();
         });
     }

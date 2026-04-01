@@ -1,20 +1,62 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
 
 const PatientAppointment = () => {
+
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [availableSlots, setAvailableSlots] = useState([]);
+  const [available_time, setAvailable_time] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 format date
+  // 🔥 Traduction jours
+  const translateDay = (day) => {
+    const map = {
+      Monday: "Lundi",
+      Tuesday: "Mardi",
+      Wednesday: "Mercredi",
+      Thursday: "Jeudi",
+      Friday: "Vendredi",
+      Saturday: "Samedi",
+      Sunday: "Dimanche",
+    };
+    return map[day] || day;
+  };
+
+  // 🔥 Format date
   const formatDate = (date) => {
     return date.toISOString().split("T")[0];
+  };
+
+  const formatTime = (time) => {
+    return time.length === 5 ? time + ":00" : time;
+  };
+
+  // 🔥 Jour → vraie date
+  const getNextDateFromDay = (dayName) => {
+    const daysMap = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+
+    const today = new Date();
+    const todayDay = today.getDay();
+    const targetDay = daysMap[dayName];
+
+    let diff = targetDay - todayDay;
+    if (diff <= 0) diff += 7;
+
+    const nextDate = new Date();
+    nextDate.setDate(today.getDate() + diff);
+
+    return nextDate;
   };
 
   // 📌 Charger médecins
@@ -34,23 +76,63 @@ const PatientAppointment = () => {
     fetchDoctors();
   }, []);
 
-  // 📌 Charger disponibilités
+  // 📌 Charger jours & horaires
   useEffect(() => {
-    const fetchAvailability = async () => {
-      if (!selectedDoctor) return;
+    if (!selectedDoctor) return;
+
+    let doctorTimes = selectedDoctor.available_time;
+
+    try {
+      if (typeof doctorTimes === "string") {
+        doctorTimes = JSON.parse(doctorTimes);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    const days = doctorTimes ? Object.keys(doctorTimes) : [];
+
+    if (days.length > 0) {
+      setSelectedDay(days[0]);
+      setAvailable_time(doctorTimes[days[0]]);
+    }
+
+  }, [selectedDoctor]);
+
+  // 📌 Changer horaires selon jour
+  useEffect(() => {
+    if (!selectedDoctor || !selectedDay) return;
+
+    let doctorTimes = selectedDoctor.available_time;
+
+    if (typeof doctorTimes === "string") {
+      doctorTimes = JSON.parse(doctorTimes);
+    }
+
+    setAvailable_time(doctorTimes[selectedDay] || []);
+
+  }, [selectedDay]);
+
+  // 📌 Charger créneaux déjà réservés
+  useEffect(() => {
+    const fetchBooked = async () => {
+      if (!selectedDoctor || !selectedDay) return;
+
+      const date = formatDate(getNextDateFromDay(selectedDay));
 
       try {
         const res = await api.get(
-          `/doctors/${selectedDoctor.id}/availability?date=${formatDate(selectedDate)}`
+          `/booked-slots/${selectedDoctor.id}/${date}`
         );
-        setAvailableSlots(res.data);
+
+        setBookedSlots(res.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchAvailability();
-  }, [selectedDoctor, selectedDate]);
+    fetchBooked();
+  }, [selectedDoctor, selectedDay]);
 
   // 📌 Réservation
   const handleAppointment = async () => {
@@ -60,15 +142,19 @@ const PatientAppointment = () => {
     }
 
     try {
+      const appointmentDate = getNextDateFromDay(selectedDay);
+
       const payload = {
         doctor_id: selectedDoctor.id,
-        date: formatDate(selectedDate),
-        time: selectedTime,
+        date: formatDate(appointmentDate),
+        time: formatTime(selectedTime), // 🔥 FIX
         reason: "Consultation"
       };
 
       await api.post("/appointments", payload);
 
+      console.log("DATE ENVOYÉE:", formatDate(appointmentDate));
+      console.log("TIME ENVOYÉ:", selectedTime);
       alert("✅ Rendez-vous confirmé !");
       setSelectedTime(null);
     } catch (error) {
@@ -90,7 +176,6 @@ const PatientAppointment = () => {
         {/* LEFT */}
         <div className="col-span-5 space-y-6">
 
-          {/* SELECT DOCTOR */}
           <select
             className="w-full p-3 border rounded-lg"
             value={selectedDoctor?.id || ""}
@@ -107,7 +192,6 @@ const PatientAppointment = () => {
             ))}
           </select>
 
-          {/* DOCTOR CARD */}
           <div className="bg-white p-6 rounded-xl shadow space-y-2">
             <img
               src={selectedDoctor.avatar || "https://randomuser.me/api/portraits/women/2.jpg"}
@@ -116,66 +200,74 @@ const PatientAppointment = () => {
             />
             <h2 className="text-xl font-bold text-teal-700">{selectedDoctor.name}</h2>
             <p className="text-gray-500">{selectedDoctor.specialty}</p>
-            {selectedDoctor.experience && (
-              <p className="text-gray-600">Expérience: {selectedDoctor.experience} ans</p>
-            )}
-            {selectedDoctor.price && (
-              <p className="text-gray-600">Tarif: {selectedDoctor.price} €</p>
-            )}
-            {selectedDoctor.rating && (
-              <p className="text-gray-600">Note: {selectedDoctor.rating} / 5</p>
-            )}
-            {selectedDoctor.bio && (
-              <p className="text-sm mt-2 text-gray-700">{selectedDoctor.bio}</p>
-            )}
-            {selectedDoctor.contact && (
-              <p className="text-gray-600">Contact: {selectedDoctor.contact}</p>
-            )}
           </div>
         </div>
 
         {/* RIGHT */}
         <div className="col-span-7 space-y-6">
 
-          {/* CALENDAR */}
+          {/* JOURS */}
           <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-bold mb-4">Choisir une date</h3>
-
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              minDate={new Date()}
-              dateFormat="yyyy-MM-dd"
-              className="w-full p-3 border rounded-lg"
-            />
-          </div>
-
-          {/* TIME SLOTS */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-bold mb-4">
-              Horaires disponibles
+            <h3 className="font-bold mb-4 text-teal-700">
+              Choisir un jour
             </h3>
 
-            {availableSlots.length === 0 ? (
-              <p className="text-gray-500">Aucun créneau disponible</p>
-            ) : (
+            <div className="flex gap-3 flex-wrap">
+              {Object.keys(
+                typeof selectedDoctor.available_time === "string"
+                  ? JSON.parse(selectedDoctor.available_time)
+                  : selectedDoctor.available_time
+              ).map((day) => (
+                <button
+                  key={day}
+                  onClick={() => setSelectedDay(day)}
+                  className={`px-4 py-2 rounded-lg font-semibold ${selectedDay === day
+                    ? "bg-teal-600 text-white"
+                    : "bg-gray-100 hover:bg-teal-100"
+                    }`}
+                >
+                  {translateDay(day)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* HORAIRES */}
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="font-bold mb-4 text-teal-700">
+              Choisir une horaire
+            </h3>
+
+            {available_time.length > 0 ? (
               <div className="grid grid-cols-4 gap-3">
-                {availableSlots.map((time) => (
-                  <button
-                    key={time}
-                    onClick={() => setSelectedTime(time)}
-                    className={`py-2 rounded-lg font-semibold ${selectedTime === time
-                        ? "bg-teal-600 text-white"
-                        : "bg-gray-100 hover:bg-teal-100"
-                      }`}
-                  >
-                    {time}
-                  </button>
-                ))}
+                {available_time.map((time) => {
+                  const normalizeTime = (t) => t.substring(0, 5);
+
+                  const isBooked = bookedSlots
+                    .map(normalizeTime)
+                    .includes(time);
+
+                  return (
+                    <button
+                      key={time}
+                      disabled={isBooked}
+                      onClick={() => setSelectedTime(time)}
+                      className={`py-2 rounded-lg font-semibold ${isBooked
+                          ? "bg-gray-300 cursor-not-allowed"
+                          : selectedTime === time
+                            ? "bg-teal-600 text-white"
+                            : "bg-gray-100 hover:bg-teal-100"
+                        }`}
+                    >
+                      {time} {isBooked && "❌"}
+                    </button>
+                  );
+                })}
               </div>
+            ) : (
+              <p className="text-gray-500">Aucun créneau disponible</p>
             )}
 
-            {/* BUTTON */}
             <button
               onClick={handleAppointment}
               className="w-full mt-6 bg-teal-600 text-white py-3 rounded-lg font-bold hover:bg-teal-700"

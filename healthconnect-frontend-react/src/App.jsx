@@ -11,6 +11,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register";
 import Doctor from "./pages/Doctors";
 
+import Profile from "./pages/Profile";
 
 // patient
 import PatientAppointment from "./pages/patient/PatientAppointments";
@@ -47,6 +48,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PatientDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />

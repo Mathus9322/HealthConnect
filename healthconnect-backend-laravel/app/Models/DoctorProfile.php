@@ -11,8 +11,8 @@ class DoctorProfile extends Model
         'specialty',
         'experience',
         'bio',
-        'avatar',
-        'price'
+        'price',
+        'available_time',
     ];
 
     // 🔹 Relation avec User

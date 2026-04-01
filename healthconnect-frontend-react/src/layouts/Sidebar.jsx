@@ -81,6 +81,7 @@ const Sidebar = () => {
                 />
             )}
 
+            
             {/* SIDEBAR */}
             <div
                 className={`
@@ -97,7 +98,9 @@ const Sidebar = () => {
                         to="/"
                         className={`text-2xl font-extrabold text-teal-600 tracking-tight`}
                     >
-                        HC
+                        {isOpen && <span className="font-medium">HealthConnect</span>}
+
+                        {!isOpen && <span className="font-medium">HC</span>}
                     </Link>
 
                     <button
@@ -149,7 +152,7 @@ const Sidebar = () => {
                         </Link>
                         {isOpen && (
                             <div className="flex flex-col flex-1">
-                                <span className="font-medium">{user.name}</span>
+                                <span className="font-medium">{user.role === 'doctor' ? 'Dr. ' : ''}{user.name}</span>
                                 <span className="text-xs text-gray-500">{user.role}</span>
                                 <button
                                     onClick={() => setConfirmOpen(true)} // ✅ ici

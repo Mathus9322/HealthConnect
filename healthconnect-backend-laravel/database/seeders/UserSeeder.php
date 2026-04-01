@@ -15,19 +15,19 @@ class UserSeeder extends Seeder
         // Médecins
         $doctors = [
             [
-                'name' => 'Dr. Sarah Martin',
+                'name' => 'Sarah Martin',
                 'email' => 'sarah.martin@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
             [
-                'name' => 'Dr. John Doe',
+                'name' => 'John Doe',
                 'email' => 'john.doe@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
             [
-                'name' => 'Dr. Emily Davis',
+                'name' => 'Emily Davis',
                 'email' => 'emily.davis@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
@@ -40,6 +40,11 @@ class UserSeeder extends Seeder
             'Spécialisé en dermatologie, avec une approche centrée sur le patient.',
             'Pédiatre dévoué, aimant travailler avec les enfants et leurs familles.',
         ];
+        $available_times = [
+            ['Monday' => ['09H-12H', '14H-17H'], 'Tuesday' => ['09H-12H', '14H-17H'], 'Wednesday' => ['09H-12H', '14H-17H']],
+            ['Monday' => ['10H-12H', '14H-15H', '16H-19H'], 'Tuesday' => ['10H-18H'], 'Thursday' => ['10H-18H']],
+            ['Tuesday' => ['08H-16H'], 'Wednesday' => ['08H-16H'], 'Friday' => ['08H-16H']],
+        ];
         $experiences = ['10', '15', '20'];
         $prices = [50, 75, 100];
 
@@ -49,8 +54,8 @@ class UserSeeder extends Seeder
                 'specialty' => $specialties[array_rand($specialties)],
                 'experience' => $experiences[array_rand($experiences)],
                 'bio' => $bios[array_rand($bios)],
-                'avatar' => null,
                 'price' => $prices[array_rand($prices)],
+                'available_time' => json_encode($available_times[array_rand($available_times)]),
             ]);
         }
 
@@ -58,7 +63,8 @@ class UserSeeder extends Seeder
             'name' => 'Mathus',
             'email' => 'admin@test.com',
             'password' => Hash::make('admin123'),
-            'role' => 'admin'
+            'role' => 'admin',
+            'avatar' => null
         ]);
 
         // Patients
