@@ -187,6 +187,23 @@ const PatientAppointment = () => {
     if (result.isConfirmed) handleAppointment();
   };
 
+
+  // 🔹 Ajouter ces nouveaux states
+  const [appointments, setAppointments] = useState([]);
+
+  // 🔹 Charger les rendez-vous du patient
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const res = await api.get("/appointments"); // endpoint pour récupérer les rdv du patient
+        setAppointments(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAppointments();
+  }, []);
+
   if (loading) return <p className="text-center mt-10">Chargement...</p>;
 
   return (
@@ -274,10 +291,10 @@ const PatientAppointment = () => {
                       disabled={isBooked}
                       onClick={() => setSelectedTime(time)}
                       className={`py-2 rounded-lg font-semibold ${isBooked
-                          ? "bg-gray-300 cursor-not-allowed"
-                          : selectedTime === time
-                            ? "bg-teal-600 text-white"
-                            : "bg-gray-100 hover:bg-teal-100"
+                        ? "bg-gray-300 cursor-not-allowed"
+                        : selectedTime === time
+                          ? "bg-teal-600 text-white"
+                          : "bg-gray-100 hover:bg-teal-100"
                         }`}
                     >
                       {time} {isBooked && "❌"}
@@ -298,6 +315,64 @@ const PatientAppointment = () => {
           </div>
         </div>
       </div>
+      {/* RENDEZ-VOUS DU PATIENT */}
+<div className="bg-white p-6 rounded-xl shadow mt-10">
+  <h3 className="font-bold mb-6 text-xl text-teal-700">Mes rendez-vous</h3>
+
+  {appointments.length > 0 ? (
+    <div className="space-y-4">
+      {appointments.map((appt) => (
+        <div
+          key={appt.id}
+          className="flex justify-between items-center p-4 hover:bg-gray-50 rounded-lg border-l-4 border-teal-500"
+        >
+          {/* INFO MEDECIN */}
+          <div className="flex items-center gap-4 flex-1">
+            <img
+              src={appt.doctor_avatar || "https://i.pravatar.cc/150"}
+              alt={appt.doctor_name}
+              className="w-12 h-12 rounded-full object-cover border-2 border-teal-500"
+            />
+            <div>
+              <h4 className="font-semibold text-gray-800">{appt.doctor_name}</h4>
+              <p className="text-xs text-gray-600 mb-1">{appt.doctor_specialty}</p>
+              <p className="text-sm text-gray-500">
+                {appt.reason} • {new Date(appt.date).toLocaleDateString("fr-FR", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                })} à {appt.time}
+              </p>
+            </div>
+          </div>
+
+          {/* STATUT */}
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${
+              appt.status === "pending"
+                ? "bg-yellow-100 text-yellow-700"
+                : appt.status === "confirmed"
+                ? "bg-blue-100 text-blue-700"
+                : appt.status === "rejected"
+                ? "bg-red-100 text-red-700"
+                : "bg-teal-100 text-teal-700"
+            }`}
+          >
+            {appt.status === "pending"
+              ? "En attente"
+              : appt.status === "confirmed"
+              ? "Confirmé"
+              : appt.status === "rejected"
+              ? "Refusé"
+              : "Terminé"}
+          </span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-500 text-center">Aucun rendez-vous pour le moment</p>
+  )}
+</div>
     </div>
   );
 };
