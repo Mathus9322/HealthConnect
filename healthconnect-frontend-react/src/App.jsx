@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login"
