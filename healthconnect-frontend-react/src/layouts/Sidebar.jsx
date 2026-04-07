@@ -142,9 +142,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               {user.name?.charAt(0).toUpperCase()}
             </Link>
             {isOpen && (
-              <div className="flex flex-col flex-1">
+              <div className="flex flex-col">
                 <span className="font-medium">{user.role === 'doctor' ? 'Dr. ' : ''}{user.name}</span>
-                <span className="text-xs text-gray-500">{user.role}</span>
+                <span className="bg-blue-100 text-blue-900 px-3 py-1 text-xs rounded-full">
+                  {user.role === 'doctor' ? 'Medecin' : user.role}
+                </span>
                 <button
                   onClick={() => setConfirmOpen(true)}
                   className="flex items-center gap-1 mt-2 text-red-600 hover:text-red-800 text-sm"

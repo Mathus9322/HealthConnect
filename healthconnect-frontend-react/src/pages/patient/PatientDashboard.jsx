@@ -16,7 +16,7 @@ const PatientDashboard = () => {
       try {
         setLoadingAppointments(true);
 
-        const res = await api.get("/appointments", {
+        const res = await api.get("/patient/appointments", {
           headers: {
             Authorization: `Bearer ${token}`
           }

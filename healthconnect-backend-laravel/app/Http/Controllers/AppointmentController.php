@@ -32,6 +32,36 @@ class AppointmentController extends Controller
     }
 
 
+    public function doctorAppointments()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Non authentifié'], 401);
+        }
+
+        if ($user->role !== 'doctor') {
+            return response()->json(['message' => 'Accès refusé'], 403);
+        }
+
+        $appointments = Appointment::where('doctor_id', $user->id)
+            ->with('patient')
+            ->latest()
+            ->get();
+
+        $patient_count = $appointments->pluck('patient_id')->unique()->count();
+        $consultations_count = $appointments->where('status', 'accepted')->count();
+        $finished_consultations_count = $appointments->where('status', 'completed')->count();
+
+        return response()->json([
+            'appointments' => $appointments,
+            'patientsCount' => $patient_count,
+            'consultationsCount' => $consultations_count,
+            'finishedConsultationsCount' => $finished_consultations_count
+        ]);
+    }
+
+
     /**
      * 📌 Créer un rendez-vous
      */

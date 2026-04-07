@@ -1,216 +1,187 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 
-
-const PatientAppointment = () => {
-
-  const [doctors, setDoctors] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [available_time, setAvailable_time] = useState([]);
+const DoctorAppointment = () => {
+  const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
-  // 🔥 format date
-  const formatDate = (date) => {
-    return date.toISOString().split("T")[0];
-  };
-
-  const getDayName = (date) => {
-    return date.toLocaleDateString("en-US", { weekday: "long" });
-  };
-
-
-
-
-
-  // 📌 Charger médecins
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      try {
-        const res = await api.get("/doctors");
-        setDoctors(res.data);
-        setSelectedDoctor(res.data[0]);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDoctors();
-  }, []);
-
-  useEffect(() => {
-    if (!selectedDoctor || !selectedDate) return;
-
-    let times = [];
-
+  // 🔥 Charger les rendez-vous
+  const fetchAppointments = async () => {
     try {
-      let doctorTimes = selectedDoctor.available_time;
+      setLoading(true);
 
-      // Si c'est une string JSON
-      if (typeof doctorTimes === "string") {
-        doctorTimes = JSON.parse(doctorTimes);
-      }
+      const res = await api.get("/doctor/appointments");
 
-      // Si c'est un objet par jour
-      if (doctorTimes && typeof doctorTimes === "object") {
-        const dayName = getDayName(selectedDate);
-        times = doctorTimes[dayName] || [];
-      }
+        setAppointments(res.data.appointments);
 
-      console.log("Jour:", getDayName(selectedDate));
-      console.log("Créneaux:", times);
 
-    } catch (error) {
-      console.error("Erreur parsing available_time:", error);
-    }
-
-    setAvailable_time(times);
-
-  }, [selectedDoctor, selectedDate]);
-  // 📌 Réservation
-  const handleAppointment = async () => {
-    if (!selectedTime) {
-      alert("Choisir une heure !");
-      return;
-    }
-
-    try {
-      const payload = {
-        doctor_id: selectedDoctor.id,
-        date: formatDate(selectedDate),
-        time: selectedTime,
-        reason: "Consultation"
-      };
-
-      await api.post("/appointments", payload);
-
-      alert("✅ Rendez-vous confirmé !");
-      setSelectedTime(null);
+      // 🔥 Sécurisation réponse
+      // if (Array.isArray(res.data)) {
+      //   setAppointments(res.data);
+      // } else if (res.data.data) {
+      //   setAppointments(res.data.appointments);
+      // } else {
+      //   setAppointments([]);
+      // }
+      // console.log(res.data.appointments);
     } catch (error) {
       console.error(error);
-      alert("❌ Créneau indisponible");
+
+      Swal.fire({
+        icon: "error",
+        title: "Erreur",
+        text: "Impossible de charger les rendez-vous",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) return <p className="text-center mt-10">Chargement...</p>;
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  // 🔥 Update status
+  const updateStatus = async (id, status) => {
+    try {
+      await api.put(`/appointments/${id}`, { status });
+
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title:
+          status === "accepted"
+            ? "Rendez-vous accepté"
+            : "Rendez-vous refusé",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      fetchAppointments();
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Erreur",
+        text: "Action impossible",
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center mt-10 text-gray-600">
+        Chargement des rendez-vous...
+      </div>
+    );
+  }
 
   return (
     <div className="p-10 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold text-teal-700 mb-8">
-        Prise de Rendez-vous
+        Gestion des Rendez-vous
       </h1>
 
-      <div className="grid grid-cols-12 gap-8">
-
-        {/* LEFT */}
-        <div className="col-span-5 space-y-6">
-
-          {/* SELECT DOCTOR */}
-          <select
-            className="w-full p-3 border rounded-lg"
-            value={selectedDoctor?.id || ""}
-            onChange={(e) =>
-              setSelectedDoctor(
-                doctors.find((d) => d.id === parseInt(e.target.value))
-              )
-            }
-          >
-            {doctors.map((doc) => (
-              <option key={doc.id} value={doc.id}>
-                {doc.user.name} - {doc.speciality}
-              </option>
-            ))}
-          </select>
-
-          {/* DOCTOR CARD */}
-          <div className="bg-white p-6 rounded-xl shadow space-y-2">
-            <img
-              src={selectedDoctor.avatar || "https://randomuser.me/api/portraits/women/2.jpg"}
-              alt={selectedDoctor.user.name}
-              className="h-60 w-full object-cover rounded-lg mb-4"
-            />
-            <h2 className="text-xl font-bold text-teal-700">{selectedDoctor.name}</h2>
-            <p className="text-gray-500">{selectedDoctor.specialty}</p>
-            {selectedDoctor.experience && (
-              <p className="text-gray-600">Expérience: <strong className="text-teal-900">{selectedDoctor.experience}</strong> ans</p>
-            )}
-            {selectedDoctor.price && (
-              <p className="text-gray-600">Tarif: <strong className="text-teal-900">{selectedDoctor.price}</strong> €</p>
-            )}
-            {selectedDoctor.rating && (
-              <p className="text-gray-600">Note: {selectedDoctor.rating} / 5</p>
-            )}
-            {selectedDoctor.bio && (
-              <p className="text-sm mt-2 text-gray-700">{selectedDoctor.bio}</p>
-            )}
-            {selectedDoctor.contact && (
-              <p className="text-gray-600">Contact: {selectedDoctor.contact}</p>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="col-span-7 space-y-6">
-
-          {/* CALENDAR */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-bold mb-4">Choisir une date</h3>
-
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              minDate={new Date()}
-              dateFormat="yyyy-MM-dd"
-              className="w-full p-3 border rounded-lg"
-            />
-          </div>
-
-
-          {/* TIME SLOTS */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-bold mb-4 text-teal-700">
-              choisir une horaire
-            </h3>
-
-            {Array.isArray(available_time) && available_time.length > 0 ? (
-              <div className="grid grid-cols-4 gap-3">
-                {available_time.map((time_available) => (
-                  <button
-                    key={time_available}
-                    onClick={() => setSelectedTime(time_available)}
-                    className={`py-2 rounded-lg font-semibold ${selectedTime === time_available
-                      ? "bg-teal-600 text-white"
-                      : "bg-gray-100 hover:bg-teal-100"
-                      }`}
-                  >
-                    {time_available}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">Aucun créneau disponible</p>
-            )}
-
-            {/* BUTTON */}
-            <button
-              onClick={handleAppointment}
-              className="w-full mt-6 bg-teal-600 text-white py-3 rounded-lg font-bold hover:bg-teal-700"
+      {appointments.length > 0 ? (
+        <div className="space-y-5">
+          {appointments.map((appt) => (
+            <div
+              key={appt.id}
+              className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border-l-4 border-teal-500"
             >
-              Confirmer le rendez-vous
-            </button>
-          </div>
+              <div className="flex justify-between items-center">
 
+                {/* 👤 PATIENT */}
+                <div className="flex items-center gap-4">
+                  <img
+                    src={
+                      appt.patient?.avatar ||
+                      "https://i.pravatar.cc/150"
+                    }
+                    alt={appt.patient?.name}
+                    className="w-14 h-14 rounded-full object-cover border-2 border-teal-500"
+                  />
 
+                  <div>
+                    <h3 className="font-bold text-lg text-gray-800">
+                      {appt.patient?.name || "Patient inconnu"}
+                    </h3>
+
+                    <p className="text-sm text-gray-500">
+                      {appt.reason || "Consultation"}
+                    </p>
+
+                    <p className="text-sm text-gray-600 mt-1">
+                      📅{" "}
+                      {appt.date
+                        ? new Date(appt.date).toLocaleDateString("fr-FR", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                          })
+                        : "Date inconnue"}{" "}
+                      • ⏰ {appt.time || "--:--"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 🎯 STATUS + ACTION */}
+                <div className="flex flex-col items-end gap-3">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      appt.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : appt.status === "accepted"
+                        ? "bg-green-100 text-green-700"
+                        : appt.status === "rejected"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {appt.status === "pending"
+                      ? "En attente"
+                      : appt.status === "accepted"
+                      ? "Accepté"
+                      : appt.status === "rejected"
+                      ? "Refusé"
+                      : "Terminé"}
+                  </span>
+
+                  {appt.status === "pending" && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => updateStatus(appt.id, "accepted")}
+                        className="px-4 py-1 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
+                      >
+                        Accepter
+                      </button>
+
+                      <button
+                        onClick={() => updateStatus(appt.id, "rejected")}
+                        className="px-4 py-1 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
+                      >
+                        Refuser
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      ) : (
+        <div className="bg-white p-10 rounded-xl shadow text-center">
+          <p className="text-gray-500">
+            Aucun rendez-vous pour le moment
+          </p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default PatientAppointment;
+export default DoctorAppointment;

@@ -37,12 +37,17 @@ Route::put('/patient/{user_id}', [PatientController::class, 'update']);
 // Appointments
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/appointments', [AppointmentController::class, 'store']);
-    Route::get('/appointments', [AppointmentController::class, 'patientAppointments']);
+    Route::get('/patient/appointments', [AppointmentController::class, 'patientAppointments']);
     Route::put('/appointments/{id}', [AppointmentController::class, 'updateStatus']);
-});
+    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments']);
+
+    });
+
+
 
 // 🔥 AJOUT ICI
 Route::get('/booked-slots/{doctor_id}/{date}', [AppointmentController::class, 'bookedSlots']);
+// Route::get('/booked-slots/{doctor_id}/{date}', [AppointmentController::class, 'bookedSlots']);
 // Messages
 Route::post('/messages', [MessageController::class, 'send']);
 Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);

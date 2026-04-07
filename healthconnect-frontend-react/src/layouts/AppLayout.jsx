@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 
 const AppLayout = ({ children }) => {
   const { user } = useAuth();
@@ -35,7 +34,6 @@ const AppLayout = ({ children }) => {
           {children}
         </main>
 
-        <Footer />
       </div>
     </div>
   );

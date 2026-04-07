@@ -195,7 +195,7 @@ const PatientAppointment = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const res = await api.get("/appointments"); // endpoint pour récupérer les rdv du patient
+        const res = await api.get("/patient/appointments"); // endpoint pour récupérer les rdv du patient
         setAppointments(res.data);
       } catch (error) {
         console.error(error);

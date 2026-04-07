@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 const ProtectedRoute = ({ children, roles }) => {
   const { user, loading } = useAuth();
 
-  if(loading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, roles }) => {
   }
   // if (!user) return <Navigate to="/login" />; // Pas connecté
 
-  if (roles && !roles.includes(user.role)) {
+  if (roles && Array.isArray(roles) && !roles.includes(user?.role)) {
     // Redirige si le rôle n’est pas autorisé
     return <Navigate to="/unauthorized" />;
   }
