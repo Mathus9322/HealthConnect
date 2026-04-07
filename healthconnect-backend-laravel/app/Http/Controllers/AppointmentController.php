@@ -24,7 +24,6 @@ class AppointmentController extends Controller
         }
 
         $appointments = Appointment::where('patient_id', $user->id)
-            ->with('doctor')
             ->latest()
             ->get();
 

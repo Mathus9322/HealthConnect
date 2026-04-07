@@ -197,6 +197,7 @@ const PatientAppointment = () => {
       try {
         const res = await api.get("/patient/appointments"); // endpoint pour récupérer les rdv du patient
         setAppointments(res.data);
+        console.log(res);
       } catch (error) {
         console.error(error);
       }
