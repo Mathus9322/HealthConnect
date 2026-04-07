@@ -2,6 +2,7 @@ import React from "react";
 import api from "../../api/axios";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 const Hero = () => {
@@ -60,9 +61,9 @@ const Hero = () => {
           </p>
 
           <div className="flex gap-4">
-            <button className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg shadow">
+            <Link to={"/patient/appointments"} className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg shadow">
               Prendre rendez-vous
-            </button>
+            </Link>
 
             <button className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-100">
               En savoir plus
