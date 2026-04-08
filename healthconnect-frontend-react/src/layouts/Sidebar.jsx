@@ -69,7 +69,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         className="md:hidden fixed top-4 left-4 z-50 bg-teal-600 text-white p-2 rounded shadow"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
-        {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        {mobileOpen ? <X size={20} /> : <Menu size={24} />}
       </button>
 
       {/* MOBILE OVERLAY */}
@@ -115,7 +115,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               `}
             >
               {link.icon}
-              {isOpen && <span className="font-medium">{link.name}</span>}
+              {isOpen && <span className="font-medium text-xs">{link.name}</span>}
               {!isOpen && (
                 <span className="
                   absolute left-full top-1/2 -translate-y-1/2 ml-2
