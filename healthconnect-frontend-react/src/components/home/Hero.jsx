@@ -27,12 +27,13 @@ const Hero = () => {
     return doc.experience > max.experience ? doc : max;
   }, { experience: 0 });
 
-  if(loading) {
+    /* ─── loading ─── */
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Loader className="animate-spin text-teal-600" size={32} />
-          <p className="text-gray-600 font-medium">Chargement...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-gray-500">Chargement ...</p>
         </div>
       </div>
     );
