@@ -16,13 +16,11 @@ use App\Http\Controllers\{
 
 
 
-Route::get('/test', function () {
-    return "API OK";
-});
-
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+
 
 // Doctors
 Route::get('/doctors', [DoctorController::class, 'index']);
@@ -37,7 +35,7 @@ Route::put('/patient/{user_id}', [PatientController::class, 'update']);
 // Appointments
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/appointments', [AppointmentController::class, 'store']);
-    Route::get('/patient/appointments', [AppointmentController::class, 'patientAppointments']);
+    Route::get('/appointments', [AppointmentController::class, 'patientAppointments']);
     Route::put('/appointments/{id}', [AppointmentController::class, 'updateStatus']);
     Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments']);
 
