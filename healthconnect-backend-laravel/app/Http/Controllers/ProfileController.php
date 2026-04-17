@@ -48,6 +48,12 @@ class ProfileController extends Controller
             $user->doctorProfile->update($profileData);
         }
 
+
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = url('storage/' . $avatarPath);
+        }
+
         return response()->json([
             'user' => $user,
             'profile' => $user->profile

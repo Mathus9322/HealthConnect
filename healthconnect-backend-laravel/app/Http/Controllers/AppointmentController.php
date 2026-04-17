@@ -165,4 +165,6 @@ class AppointmentController extends Controller
 
         return response()->json($appointments);
     }
+
+
 }

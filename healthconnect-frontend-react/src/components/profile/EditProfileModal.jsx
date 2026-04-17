@@ -1,127 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import api from "../../api/axios";
-import { X } from "lucide-react";
+import { updateProfile } from "../../api/profile";
+import Swal from "sweetalert2";
 
 const EditProfileModal = ({ onClose }) => {
-  const { user, login } = useAuth();
-  const [form, setForm] = useState({
-    name: user.name || "",
-    email: user.email || "",
-    password: ""
+  const { user, setUser } = useAuth();
+  const [formData, setFormData] = useState({
+    name: user.name,
+    email: user.email,
+    avatar: null,
+    specialty: user.role === "doctor" ? user.profile?.specialty : "",
+    license_number: user.role === "doctor" ? user.profile?.license_number : "",
   });
-
+  const [preview, setPreview] = useState(user.avatar || null);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+    const { name, value, files } = e.target;
+    if (name === "avatar") {
+      setFormData({ ...formData, avatar: files[0] });
+      setPreview(URL.createObjectURL(files[0]));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess("");
-
     try {
-      // 🔥 Ne pas envoyer password s’il est vide
-      const payload = {
-        name: form.name,
-        email: form.email,
-      };
-
-      if (form.password.trim() !== "") {
-        payload.password = form.password;
-      }
-
-      const res = await api.put("/profile", payload);
-
-      // 🔥 Mise à jour du user dans le context
-      login(res.data, localStorage.getItem("token"));
-
-      setSuccess("Profil mis à jour avec succès ✅");
-
-      // fermeture après 1 seconde
-      setTimeout(() => {
-        onClose();
-      }, 1000);
-
+      const res = await updateProfile(user.id, formData);
+      setUser(res.user); // met à jour le context
+      Swal.fire("Succès", "Profil mis à jour !", "success");
+      onClose();
     } catch (err) {
-      console.error(err);
-      alert("Erreur lors de la mise à jour");
+      Swal.fire("Erreur", err.response?.data?.message || err.message, "error");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-      <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow-lg relative">
-
-        {/* CLOSE */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-black"
-        >
-          <X size={20} />
-        </button>
-
-        <h3 className="text-xl font-semibold mb-4 text-center">
-          Modifier le profil
-        </h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Modifier profil</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
+          {/* Avatar */}
+          <div className="flex items-center gap-4">
+            {preview ? (
+              <img
+                src={preview}
+                alt="avatar"
+                className="w-16 h-16 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-xl">
+                {user.name?.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <input type="file" name="avatar" onChange={handleChange} />
+          </div>
+
+          {/* Nom et Email */}
           <input
             type="text"
             name="name"
-            value={form.name}
-            onChange={handleChange}
-            className="w-full border px-4 py-2 rounded-lg"
             placeholder="Nom"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full border px-4 py-2 rounded-xl"
           />
-
           <input
             type="email"
             name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border px-4 py-2 rounded-lg"
             placeholder="Email"
-          />
-
-          <input
-            type="password"
-            name="password"
-            value={form.password}
+            value={formData.email}
             onChange={handleChange}
-            className="w-full border px-4 py-2 rounded-lg"
-            placeholder="Nouveau mot de passe (optionnel)"
+            className="w-full border px-4 py-2 rounded-xl"
           />
 
-          {/* MESSAGE SUCCESS */}
-          {success && (
-            <p className="text-green-600 text-sm text-center">{success}</p>
+          {/* Spécifique docteur */}
+          {user.role === "doctor" && (
+            <>
+              <input
+                type="text"
+                name="specialty"
+                placeholder="Spécialité"
+                value={formData.specialty}
+                onChange={handleChange}
+                className="w-full border px-4 py-2 rounded-xl"
+              />
+              <input
+                type="text"
+                name="license_number"
+                placeholder="Numéro de licence"
+                value={formData.license_number}
+                onChange={handleChange}
+                className="w-full border px-4 py-2 rounded-xl"
+              />
+            </>
           )}
 
-          {/* BOUTON */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`
-              w-full py-2 rounded-lg text-white font-medium transition
-              ${loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-teal-600 hover:bg-teal-700"}
-            `}
-          >
-            {loading ? "Enregistrement..." : "Mettre à jour"}
-          </button>
-
+          <div className="flex justify-end gap-4 mt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded-xl border"
+            >
+              Annuler
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 rounded-xl bg-teal-600 text-white"
+            >
+              {loading ? "En cours..." : "Enregistrer"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

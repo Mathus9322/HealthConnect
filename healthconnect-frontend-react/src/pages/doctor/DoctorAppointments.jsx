@@ -70,6 +70,7 @@ const DoctorAppointment = () => {
   const [filter, setFilter] = useState("Tous");
   const [updating, setUpdating] = useState(null); // appt id being updated
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [availability, setAvailability] = useState({});
   const [showModal, setShowModal] = useState(false);
   const fetchAppointments = async () => {
     try {
@@ -117,6 +118,87 @@ const DoctorAppointment = () => {
         title: "Erreur",
         text: "Impossible de terminer le rendez-vous",
       });
+    }
+  };
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        const res = await api.get("/doctor/availability");
+
+        console.log("Disponibilité chargée:", res.data);
+
+        let dispo = res.data.available_time; // ✅ correction ici
+
+        if (!dispo) {
+          setAvailability({});
+          return;
+        }
+
+        // 🔥 sécurisation JSON
+        if (typeof dispo === "string") {
+          dispo = JSON.parse(dispo);
+        }
+
+        // 🔥 normalisation (évite erreurs undefined)
+        const normalized = {};
+
+        Object.keys(dispo).forEach((day) => {
+          normalized[day] = Array.isArray(dispo[day])
+            ? dispo[day]
+            : [];
+        });
+
+        setAvailability(normalized);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAvailability();
+  }, []);
+
+  const toggleDay = (day) => {
+    setAvailability((prev) => {
+      const updated = { ...prev };
+      if (updated[day]) delete updated[day];
+      else updated[day] = ["09:00"];
+      return updated;
+    });
+  };
+
+  const addTime = (day) => {
+    const time = prompt("Entrer une heure (ex: 14:00)");
+    if (!time) return;
+
+    setAvailability((prev) => ({
+      ...prev,
+      [day]: [...(prev[day] || []), time],
+    }));
+  };
+
+  const removeTime = (day, time) => {
+    setAvailability((prev) => ({
+      ...prev,
+      [day]: prev[day].filter((t) => t !== time),
+    }));
+  };
+
+  const saveAvailability = async () => {
+    try {
+      await api.put("/doctor/availability", {
+        available_time: availability,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Disponibilités mises à jour",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -186,6 +268,65 @@ const DoctorAppointment = () => {
         <p className="text-sm text-gray-500 mt-1">
           {appointments.length} rendez-vous au total
         </p>
+      </div>
+
+
+      {/* 🔥 DISPONIBILITÉS */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
+        <h2 className="text-xl font-bold text-teal-700 mb-4">
+          Mes disponibilités
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-4">
+          {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+            <div key={day} className="border p-4 rounded-xl">
+
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold">{day}</h3>
+
+                <button
+                  onClick={() => toggleDay(day)}
+                  className={`text-xs px-2 py-1 rounded ${availability[day]
+                    ? "bg-red-100 text-red-600"
+                    : "bg-teal-100 text-teal-600"
+                    }`}
+                >
+                  {availability[day] ? "OFF" : "ON"}
+                </button>
+              </div>
+
+              {availability[day] && (
+                <>
+                  {availability[day].map((time) => (
+                    <div key={time} className="flex justify-between text-sm mb-1">
+                      <span>{time}</span>
+                      <button
+                        onClick={() => removeTime(day, time)}
+                        className="text-red-500"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() => addTime(day)}
+                    className="text-teal-600 text-xs mt-2"
+                  >
+                    + Ajouter heure
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={saveAvailability}
+          className="mt-6 bg-teal-600 text-white px-6 py-2 rounded-lg"
+        >
+          Enregistrer
+        </button>
       </div>
 
       {/* stat cards */}

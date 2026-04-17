@@ -15,6 +15,9 @@ class DoctorProfile extends Model
         'available_time',
     ];
 
+    protected $casts = [
+    'available_time' => 'array',
+];
     // 🔹 Relation avec User
     public function user()
     {
