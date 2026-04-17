@@ -45,7 +45,7 @@ const Avatar = ({ name = "", src }) => (
 );
 
 const StatusBadge = ({ status }) => {
-  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.done;
+  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.pending;
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${cfg.bg} ${cfg.text}`}>
       <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
@@ -533,7 +533,7 @@ const DoctorAppointment = () => {
                 Fermer
               </button>
 
-              {selectedAppointment.status !== "done" && (
+              {selectedAppointment.status !== "completed" && (
                 <button
                   onClick={() => finishAppointment(selectedAppointment.id)}
                   className="px-5 py-2 rounded-xl bg-gradient-to-r from-teal-600 to-teal-500 text-white font-medium shadow-md hover:scale-105 active:scale-95 transition-all"

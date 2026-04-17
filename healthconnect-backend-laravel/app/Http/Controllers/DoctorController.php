@@ -29,7 +29,7 @@ class DoctorController extends Controller
 
     public function getAvailability(Request $request)
 {
-    $doctor = $request->user()->doctor;
+    $doctor = $request->user()->doctorProfile;
 
     if (!$doctor) {
         return response()->json(['message' => 'Médecin non trouvé'], 404);
@@ -46,7 +46,7 @@ public function updateAvailability(Request $request)
         'available_time' => 'required|array',
     ]);
 
-    $doctor = $request->user()->doctor;
+    $doctor = $request->user()->doctorProfile;
 
     if (!$doctor) {
         return response()->json(['message' => 'Médecin non trouvé'], 404);

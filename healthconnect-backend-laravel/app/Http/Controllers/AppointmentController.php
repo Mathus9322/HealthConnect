@@ -139,6 +139,11 @@ class AppointmentController extends Controller
         ]);
 
         $appointment = Appointment::findOrFail($id);
+        $user = Auth::user();
+
+        if (!$user || $user->role !== 'doctor' || $appointment->doctor_id !== $user->id) {
+            return response()->json(['message' => 'Accès refusé'], 403);
+        }
 
         $appointment->update([
             'status' => $request->status
