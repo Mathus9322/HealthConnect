@@ -75,8 +75,11 @@ Route::middleware('auth:sanctum')->group(function () {
     | 💬 MESSAGES
     |-------------------------------
     */
-    Route::post('/messages', [MessageController::class, 'send']);
-    Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/messages', [MessageController::class, 'send']);
+        Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);
+        Route::get('/conversations', [MessageController::class, 'getConversations']);
+    });
 
     /*
     |-------------------------------

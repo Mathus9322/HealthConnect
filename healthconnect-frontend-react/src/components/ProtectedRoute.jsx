@@ -16,7 +16,8 @@ const ProtectedRoute = ({ children, roles }) => {
       </div>
     );
   }
-  // if (!user) return <Navigate to="/login" />; // Pas connecté
+
+  if (!user) return <Navigate to="/login" />; // Pas connecté
 
   if (roles && Array.isArray(roles) && !roles.includes(user?.role)) {
     // Redirige si le rôle n’est pas autorisé

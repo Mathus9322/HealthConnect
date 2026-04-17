@@ -22,6 +22,7 @@ import PatientDashboard from "./pages/patient/PatientDashboard";
 // Medecin
 import DoctorAppointment from "./pages/doctor/DoctorAppointments";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import DoctorMessages from "./pages/doctor/DoctorMessages";
 
 
 function App() {
@@ -76,6 +77,15 @@ function App() {
               element={
                 <ProtectedRoute roles={['doctor']}>
                   <DoctorDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/doctor/messages"
+              element={
+                <ProtectedRoute roles={['doctor']}>
+                  <DoctorMessages />
                 </ProtectedRoute>
               }
             />
