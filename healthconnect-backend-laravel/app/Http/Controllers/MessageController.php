@@ -37,9 +37,9 @@ class MessageController extends Controller
             return response()->json(['error' => 'Accès non autorisé'], 403);
         }
 
-        $messages = Message::where(function($query) use ($user1, $user2) {
+        $messages = Message::where(function ($query) use ($user1, $user2) {
             $query->where('sender_id', $user1)->where('receiver_id', $user2);
-        })->orWhere(function($query) use ($user1, $user2) {
+        })->orWhere(function ($query) use ($user1, $user2) {
             $query->where('sender_id', $user2)->where('receiver_id', $user1);
         })->with(['sender', 'receiver'])->orderBy('created_at', 'asc')->get();
 
@@ -56,10 +56,10 @@ class MessageController extends Controller
             ->with(['sender', 'receiver'])
             ->orderBy('created_at', 'desc')
             ->get()
-            ->groupBy(function($message) use ($userId) {
+            ->groupBy(function ($message) use ($userId) {
                 return $message->sender_id == $userId ? $message->receiver_id : $message->sender_id;
             })
-            ->map(function($messages, $otherUserId) {
+            ->map(function ($messages, $otherUserId) {
                 $lastMessage = $messages->first();
                 $otherUser = $lastMessage->sender_id == $otherUserId ? $lastMessage->sender : $lastMessage->receiver;
                 return [
@@ -69,6 +69,6 @@ class MessageController extends Controller
                 ];
             });
 
-        return response()->json($conversations);
+        return response()->json(array_values($conversations->toArray()));
     }
 }

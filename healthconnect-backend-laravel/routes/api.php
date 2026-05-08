@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\{
-    AuthController,
-    DoctorController,
-    PatientController,
-    AppointmentController,
-    MessageController,
-    PrescriptionController,
-    ProfileController
+    AuthController, DoctorController, PatientController,
+    AppointmentController, MessageController,
+    PrescriptionController, ProfileController
+};
+use App\Http\Controllers\Admin\{
+    AdminStatsController, AdminUserController,
+    AdminAppointmentController, AdminMessageController,
+    AdminPrescriptionController
 };
 
 /*
@@ -17,84 +17,69 @@ use App\Http\Controllers\{
 | 🔓 PUBLIC ROUTES
 |--------------------------------------------------------------------------
 */
-
-// Auth
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login',    [AuthController::class, 'login']);
 
-// Doctors
-Route::get('/doctors', [DoctorController::class, 'index']);
+Route::get('/doctors',      [DoctorController::class, 'index']);
 Route::get('/doctors/{id}', [DoctorController::class, 'show']);
 
-// Patients
-Route::get('/patients', [PatientController::class, 'index']);
+Route::get('/patients',          [PatientController::class, 'index']);
 Route::get('/patient/{user_id}', [PatientController::class, 'show']);
+
+Route::get('/booked-slots/{doctorId}/{date}', [AppointmentController::class, 'bookedSlots']);
 
 /*
 |--------------------------------------------------------------------------
 | 🔒 PROTECTED ROUTES
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('auth:sanctum')->group(function () {
 
-    /*
-    |-------------------------------
-    | 👤 PROFILE
-    |-------------------------------
-    */
-    Route::get('/profile', [ProfileController::class, 'show']);
+    // 👤 Profil
+    Route::get('/profile',      [ProfileController::class, 'show']);
     Route::put('/profile/{id}', [ProfileController::class, 'update']);
 
-    /*
-    |-------------------------------
-    | 🧑‍⚕️ DOCTOR AVAILABILITY
-    |-------------------------------
-    */
-    Route::get('/doctor/availability', [DoctorController::class, 'getAvailability']);
-    Route::put('/doctor/availability', [DoctorController::class, 'updateAvailability']);
+    // 📅 Rendez-vous
+    Route::post('/appointments',        [AppointmentController::class, 'store']);
+    Route::get('/appointments',         [AppointmentController::class, 'patientAppointments']);
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy']);
+
+    // 🧑‍⚕️ Médecin
+    Route::get('/doctor/appointments',  [AppointmentController::class, 'doctorAppointments']);
+    Route::put('/appointments/{id}',    [AppointmentController::class, 'updateStatus']);
+
+    Route::get('/doctor/availability',  [DoctorController::class, 'getAvailability']);
+    Route::put('/doctor/availability',  [DoctorController::class, 'updateAvailability']);
+
+    Route::get('/doctor/patients',                            [DoctorController::class, 'myPatients']);
+    Route::get('/doctor/patients/{patientId}/prescriptions',  [DoctorController::class, 'patientPrescriptions']);
+
+    // 💬 Messages
+    Route::post('/messages',                [MessageController::class, 'send']);
+    Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);
+    Route::get('/conversations',            [MessageController::class, 'getConversations']);
+
+    // 💊 Prescriptions
+    Route::get('/prescriptions',        [PrescriptionController::class, 'index']);
+    Route::post('/prescriptions',       [PrescriptionController::class, 'store']);
+    Route::delete('/prescriptions/{id}',[PrescriptionController::class, 'destroy']);
 
     /*
-    |-------------------------------
-    | 📅 APPOINTMENTS
-    |-------------------------------
+    |--------------------------------------------------------------------------
+    | 🛡️ ADMIN
+    |--------------------------------------------------------------------------
     */
-    Route::post('/appointments', [AppointmentController::class, 'store']);
-
-    // 🔥 patient
-    Route::get('/appointments', [AppointmentController::class, 'patientAppointments']);
-
-    // 🔥 doctor
-    Route::get('/doctor/appointments', [AppointmentController::class, 'doctorAppointments']);
-
-    // update status
-    Route::put('/appointments/{id}', [AppointmentController::class, 'updateStatus']);
-
-    /*
-    |-------------------------------
-    | 💬 MESSAGES
-    |-------------------------------
-    */
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/messages', [MessageController::class, 'send']);
-        Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);
-        Route::get('/conversations', [MessageController::class, 'getConversations']);
+    Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('/stats',                   [AdminStatsController::class, 'index']);
+        Route::get('/users',                   [AdminUserController::class, 'index']);
+        Route::put('/users/{id}',              [AdminUserController::class, 'update']);
+        Route::delete('/users/{id}',           [AdminUserController::class, 'destroy']);
+        Route::get('/appointments',            [AdminAppointmentController::class, 'index']);
+        Route::put('/appointments/{id}',       [AdminAppointmentController::class, 'update']);
+        Route::delete('/appointments/{id}',    [AdminAppointmentController::class, 'destroy']);
+        Route::get('/messages',                [AdminMessageController::class, 'index']);
+        Route::delete('/messages/{id}',        [AdminMessageController::class, 'destroy']);
+        Route::get('/prescriptions',           [AdminPrescriptionController::class, 'index']);
+        Route::delete('/prescriptions/{id}',   [AdminPrescriptionController::class, 'destroy']);
     });
-
-    /*
-    |-------------------------------
-    | 💊 PRESCRIPTIONS
-    |-------------------------------
-    */
-    Route::post('/prescriptions', [PrescriptionController::class, 'store']);
-    Route::get('/prescriptions', [PrescriptionController::class, 'index']);
 });
-
-/*
-|--------------------------------------------------------------------------
-| 📌 PUBLIC UTILITY
-|--------------------------------------------------------------------------
-*/
-
-// créneaux réservés
-Route::get('/booked-slots/{doctorId}/{date}', [AppointmentController::class, 'bookedSlots']);

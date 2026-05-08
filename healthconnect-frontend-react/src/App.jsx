@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import { AuthProvider } from "./context/AuthContext";
@@ -7,23 +6,32 @@ import "./App.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Home from "./pages/Home";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Doctor from "./pages/Doctors";
-
 import Profile from "./pages/Profile";
-
 import Unauthorized from "./pages/Unauthorized";
 
-// patient
-import PatientAppointment from "./pages/patient/PatientAppointments";
-import PatientDashboard from "./pages/patient/PatientDashboard";
+// Patient
+import PatientDashboard    from "./pages/patient/PatientDashboard";
+import PatientAppointment  from "./pages/patient/PatientAppointments";
+import PatientMessages     from "./pages/patient/PatientMessages";
+import PatientPrescriptions from "./pages/patient/PatientPrescriptions";
 
-// Medecin
-import DoctorAppointment from "./pages/doctor/DoctorAppointments";
-import DoctorDashboard from "./pages/doctor/DoctorDashboard";
-import DoctorMessages from "./pages/doctor/DoctorMessages";
+// Médecin
+import DoctorDashboard     from "./pages/doctor/DoctorDashboard";
+import DoctorAppointment   from "./pages/doctor/DoctorAppointments";
+import DoctorMessages      from "./pages/doctor/DoctorMessages";
+import DoctorPatients      from "./pages/doctor/DoctorPatients";
+import DoctorPrescriptions from "./pages/doctor/DoctorPrescriptions";
 
+// Admin
+import AdminDashboard      from "./pages/admin/AdminDashboard";
+import AdminUsers          from "./pages/admin/AdminUsers";
+import AdminAppointments   from "./pages/admin/AdminAppointments";
+import AdminMessages       from "./pages/admin/AdminMessages";
+import AdminPrescriptions  from "./pages/admin/AdminPrescriptions";
+import AdminStats          from "./pages/admin/AdminStats";
 
 function App() {
   return (
@@ -31,79 +39,38 @@ function App() {
       <Router>
         <AppLayout>
           <Routes>
-            {/* Routes publiques */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/doctors" element={<Doctor />} />
+            {/* ─── Publiques ─── */}
+            <Route path="/"            element={<Home />} />
+            <Route path="/login"       element={<Login />} />
+            <Route path="/register"    element={<Register />} />
+            <Route path="/doctors"     element={<Doctor />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
 
+            {/* ─── Patient ─── */}
+            <Route path="/dashboard/patient"     element={<ProtectedRoute roles={["patient"]}><PatientDashboard /></ProtectedRoute>} />
+            <Route path="/patient/appointments"  element={<ProtectedRoute roles={["patient"]}><PatientAppointment /></ProtectedRoute>} />
+            <Route path="/patient/messages"      element={<ProtectedRoute roles={["patient"]}><PatientMessages /></ProtectedRoute>} />
+            <Route path="/patient/prescriptions" element={<ProtectedRoute roles={["patient"]}><PatientPrescriptions /></ProtectedRoute>} />
 
+            {/* ─── Médecin ─── */}
+            <Route path="/dashboard/doctor"      element={<ProtectedRoute roles={["doctor"]}><DoctorDashboard /></ProtectedRoute>} />
+            <Route path="/doctor/appointments"   element={<ProtectedRoute roles={["doctor"]}><DoctorAppointment /></ProtectedRoute>} />
+            <Route path="/doctor/messages"       element={<ProtectedRoute roles={["doctor"]}><DoctorMessages /></ProtectedRoute>} />
+            <Route path="/doctor/patients"       element={<ProtectedRoute roles={["doctor"]}><DoctorPatients /></ProtectedRoute>} />
+            <Route path="/doctor/prescriptions"  element={<ProtectedRoute roles={["doctor"]}><DoctorPrescriptions /></ProtectedRoute>} />
 
-            {/* Routes protégées pour tous les utilisateurs connectés */}
+            {/* ─── Admin ─── */}
+            <Route path="/dashboard/admin"      element={<ProtectedRoute roles={["admin"]}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/users"          element={<ProtectedRoute roles={["admin"]}><AdminUsers /></ProtectedRoute>} />
+            <Route path="/admin/appointments"   element={<ProtectedRoute roles={["admin"]}><AdminAppointments /></ProtectedRoute>} />
+            <Route path="/admin/messages"       element={<ProtectedRoute roles={["admin"]}><AdminMessages /></ProtectedRoute>} />
+            <Route path="/admin/prescriptions"  element={<ProtectedRoute roles={["admin"]}><AdminPrescriptions /></ProtectedRoute>} />
+            <Route path="/admin/stats"          element={<ProtectedRoute roles={["admin"]}><AdminStats /></ProtectedRoute>} />
 
-            {/* Patient */}
-            <Route
-              path="/patient/appointments"
-              element={
-                <ProtectedRoute roles={['patient']}>
-                  <PatientAppointment />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/patient"
-              element={
-                <ProtectedRoute roles={['patient']}>
-                  <PatientDashboard />
-                </ProtectedRoute>
-              }
-            />
-
-
-            {/* Medecin */}
-            <Route
-              path="/doctor/appointments"
-              element={
-                <ProtectedRoute roles={['doctor']}>
-                  <DoctorAppointment />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/dashboard/doctor"
-              element={
-                <ProtectedRoute roles={['doctor']}>
-                  <DoctorDashboard />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/doctor/messages"
-              element={
-                <ProtectedRoute roles={['doctor']}>
-                  <DoctorMessages />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-
-
-
+            {/* ─── Profil ─── */}
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           </Routes>
         </AppLayout>
-
       </Router>
     </AuthProvider>
   );
