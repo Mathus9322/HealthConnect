@@ -218,6 +218,36 @@ src
 │   └── AppointmentCard.jsx
 │
 └── services
+
+---
+
+## 11. Docker
+
+Le projet peut être démarré avec Docker Compose pour lancer le backend Laravel et le frontend React ensemble.
+
+### Prérequis
+
+* Docker
+* Docker Compose
+
+### Lancer les services
+
+Depuis la racine du dépôt :
+
+```bash
+docker compose up --build
+```
+
+### URLs accessibles
+
+* Backend Laravel : `http://localhost:8000`
+* Frontend React : `http://localhost:3000`
+
+### Détails
+
+* Le backend utilise SQLite pour la base de données (`healthconnect-backend-laravel/database/database.sqlite`).
+* Le frontend se connecte au backend via `REACT_APP_API_BASE_URL=http://127.0.0.1:8000/api`.
+
     └── api.js          # Gestion des appels API
 ```
 
