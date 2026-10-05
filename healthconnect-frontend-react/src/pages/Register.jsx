@@ -28,7 +28,7 @@ const Register = () => {
 
       
       login(res.data.user, res.data.token);
-      navigate("/");
+      navigate(`/dashboard/${res.data.user.role}`);
     } catch (err) {
       console.log(err.response);
       setError("Erreur lors de l'inscription");

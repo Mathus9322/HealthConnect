@@ -58,3 +58,22 @@
 .animate-scaleIn {
   animation: scaleIn 0.2s ease-out;
 }
+/* Scroller horizontal avec barre de défilement stylée */
+.styled-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #0d9488 #e5e7eb;
+}
+.styled-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+.styled-scrollbar::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 9999px;
+}
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  background: #0d9488;
+  border-radius: 9999px;
+}
+.styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0f766e;
+}

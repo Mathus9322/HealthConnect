@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
 import Swal from "sweetalert2";
+import { X, CheckCircle } from "lucide-react";
 
 /* ─── helpers ─────────────────────────────────────────────── */
 const formatDate = (date) =>
@@ -128,19 +129,19 @@ const DoctorAppointment = () => {
 
         console.log("Disponibilité chargée:", res.data);
 
-        let dispo = res.data.available_time; // ✅ correction ici
+        let dispo = res.data.available_time; // correction ici
 
         if (!dispo) {
           setAvailability({});
           return;
         }
 
-        // 🔥 sécurisation JSON
+        // sécurisation JSON
         if (typeof dispo === "string") {
           dispo = JSON.parse(dispo);
         }
 
-        // 🔥 normalisation (évite erreurs undefined)
+        // normalisation (évite erreurs undefined)
         const normalized = {};
 
         Object.keys(dispo).forEach((day) => {
@@ -271,7 +272,7 @@ const DoctorAppointment = () => {
       </div>
 
 
-      {/* 🔥 DISPONIBILITÉS */}
+      {/* DISPONIBILITÉS */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
         <h2 className="text-xl font-bold text-teal-700 mb-4">
           Mes disponibilités
@@ -303,8 +304,9 @@ const DoctorAppointment = () => {
                       <button
                         onClick={() => removeTime(day, time)}
                         className="text-red-500"
+                        aria-label="Supprimer ce créneau"
                       >
-                        ✕
+                        <X size={16} />
                       </button>
                     </div>
                   ))}
@@ -468,8 +470,9 @@ const DoctorAppointment = () => {
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              aria-label="Fermer"
             >
-              ✕
+              <X size={20} />
             </button>
 
             {/* Header */}
@@ -538,7 +541,7 @@ const DoctorAppointment = () => {
                   onClick={() => finishAppointment(selectedAppointment.id)}
                   className="px-5 py-2 rounded-xl bg-gradient-to-r from-teal-600 to-teal-500 text-white font-medium shadow-md hover:scale-105 active:scale-95 transition-all"
                 >
-                  ✔ Terminer le rendez-vous
+                  <CheckCircle size={16} className="inline-block align-[-3px] mr-1.5" />Terminer le rendez-vous
                 </button>
               )}
 

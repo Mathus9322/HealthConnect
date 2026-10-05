@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
+import { Star } from "lucide-react";
 
 const PatientDashboard = () => {
   const { user, token } = useAuth();
@@ -24,7 +25,7 @@ const PatientDashboard = () => {
 
         console.log(res.data);
 
-        // ✔ sécurisation
+        // sécurisation
         if (Array.isArray(res.data)) {
           setAppointments(res.data);
         } else if (res.data.data) {
@@ -86,7 +87,7 @@ const PatientDashboard = () => {
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
 
-      {/* 🔥 HEADER + PROFIL */}
+      {/* HEADER + PROFIL */}
       <div className="bg-white rounded-2xl shadow p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-6">
 
         {/* INFOS USER */}
@@ -102,7 +103,7 @@ const PatientDashboard = () => {
 
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
-              Bonjour, {user?.name} 👋
+              Bonjour, {user?.name}
             </h1>
 
             <p className="text-gray-500">
@@ -117,10 +118,6 @@ const PatientDashboard = () => {
 
         {/* ACTIONS */}
         <div className="flex gap-4">
-          <button className="p-3 rounded-full bg-gray-100 hover:bg-gray-200">
-            🔔
-          </button>
-
           <Link
             to="/profile"
             className="bg-teal-600 text-white px-5 py-2 rounded-lg shadow hover:bg-teal-700"
@@ -133,7 +130,7 @@ const PatientDashboard = () => {
       {/* ACTIONS RAPIDES */}
       <div className="grid md:grid-cols-3 gap-6 mb-10">
         <Link
-          to="/doctors"
+          to="/patient/doctors"
           className="bg-gradient-to-r from-teal-600 to-teal-500 text-white p-6 rounded-xl shadow hover:scale-105 transition"
         >
           <h3 className="text-lg font-bold mb-1">
@@ -145,7 +142,7 @@ const PatientDashboard = () => {
         </Link>
 
         <Link
-          to="/appointments"
+          to="/patient/appointments"
           className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
         >
           <h3 className="font-bold text-teal-700 mb-1">
@@ -203,7 +200,7 @@ const PatientDashboard = () => {
 
               <div className="flex items-center gap-3">
                 <span className="text-xs text-gray-600 text-right">
-                  <p className="font-semibold text-teal-700">{app.doctor?.rating || "N/A"} ⭐</p>
+                  <p className="font-semibold text-teal-700"><span className="inline-flex items-center gap-1">{app.doctor?.rating || "N/A"} <Star size={12} className="text-amber-400 fill-amber-400" /></span></p>
                   <p className="text-gray-500">{app.doctor?.experience || "N/A"}</p>
                 </span>
                 <span
@@ -227,7 +224,7 @@ const PatientDashboard = () => {
         )}
       </div>
 
-      {/* 🔥 STATS SANTÉ */}
+      {/* STATS SANTÉ */}
       <div className="grid md:grid-cols-3 gap-6 mb-10">
         <div className="bg-white p-6 rounded-xl shadow border-l-4 border-red-500">
           <p className="text-sm text-gray-500">Rythme cardiaque</p>
@@ -245,7 +242,7 @@ const PatientDashboard = () => {
         </div>
       </div>
 
-      {/* 🔥 DOSSIERS */}
+      {/* DOSSIERS */}
       <div>
         <h3 className="text-2xl font-bold text-teal-700 mb-6">
           Dossiers médicaux

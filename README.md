@@ -198,6 +198,23 @@ Lancer le serveur React :
 npm start
 ```
 
+### En Resume
+
+```bash
+
+# terminal 1
+cd healthconnect-backend-laravel && php artisan serve
+
+```
+
+```bash
+
+# terminal 2
+cd healthconnect-frontend-react && npm start
+
+```
+
+
 ---
 
 ## 10. Structure React

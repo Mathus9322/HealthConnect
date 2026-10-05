@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import EditProfileModal from "../components/profile/EditProfileModal";
+import { Camera, Pencil, Lock, CheckCircle, Calendar, MessageCircle } from "lucide-react";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -46,7 +47,7 @@ const Profile = () => {
             />
 
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-full text-sm">
-              📷
+              <Camera size={20} />
             </div>
           </label>
 
@@ -64,7 +65,7 @@ const Profile = () => {
           onClick={() => setOpenModal(true)}
           className="mt-4 md:mt-0 bg-white text-teal-600 px-6 py-2 rounded-xl font-medium shadow hover:scale-105 transition"
         >
-          ✏️ Modifier profil
+          <Pencil size={16} className="inline-block align-[-3px] mr-1.5" />Modifier profil
         </button>
       </div>
 
@@ -96,11 +97,11 @@ const Profile = () => {
 
           </div>
 
-          {/* 🔐 PASSWORD */}
+          {/* PASSWORD */}
           <div className="mt-8">
             <h4 className="font-semibold mb-2">Sécurité</h4>
             <button className="text-sm text-teal-600 hover:underline">
-              🔐 Changer mot de passe
+              <Lock size={14} className="inline-block align-[-3px] mr-1.5" />Changer mot de passe
             </button>
           </div>
         </div>
@@ -133,9 +134,9 @@ const Profile = () => {
         </h3>
 
         <ul className="space-y-3 text-sm text-gray-500">
-          <li>✔ Profil mis à jour</li>
-          <li>📅 Consultation avec patient</li>
-          <li>💬 Message envoyé</li>
+          <li className="flex items-center gap-2"><CheckCircle size={16} className="text-teal-600" /> Profil mis à jour</li>
+          <li className="flex items-center gap-2"><Calendar size={16} className="text-teal-600" /> Consultation avec patient</li>
+          <li className="flex items-center gap-2"><MessageCircle size={16} className="text-teal-600" /> Message envoyé</li>
         </ul>
       </div>
 

@@ -3,14 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
 import {
-  Users,
-  UserCheck,
-  Calendar,
-  MessageCircle,
-  TrendingUp,
-  Activity,
-  ClipboardList,
-  AlertCircle,
+  Users, UserCheck, Calendar, MessageCircle, TrendingUp, Activity, ClipboardList, AlertCircle, ShieldCheck,
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -167,11 +160,11 @@ const AdminDashboard = () => {
           </div>
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">
-              Bonjour, {user?.name} 👋
+              Bonjour, {user?.name}
             </h1>
             <p className="text-teal-100 text-sm">{user?.email}</p>
             <span className="mt-2 inline-block bg-white/20 px-3 py-1 text-xs rounded-full font-semibold">
-              🛡️ Administrateur
+              <ShieldCheck size={14} className="inline-block align-[-2px] mr-1" />Administrateur
             </span>
           </div>
         </div>
@@ -208,16 +201,17 @@ const AdminDashboard = () => {
       {/* QUICK ACTIONS */}
       <div className="grid md:grid-cols-4 gap-4 mb-10">
         {[
-          { label: "👥 Utilisateurs", path: "/admin/users", bg: "from-teal-600 to-teal-500", text: "white" },
-          { label: "📅 Rendez-vous", path: "/admin/appointments", bg: "from-blue-600 to-blue-500", text: "white" },
-          { label: "💬 Messages", path: "/admin/messages", bg: "from-purple-600 to-purple-500", text: "white" },
-          { label: "📋 Prescriptions", path: "/admin/prescriptions", bg: "from-orange-500 to-orange-400", text: "white" },
+          { label: "Utilisateurs", icon: Users, path: "/admin/users", bg: "from-teal-600 to-teal-500", text: "white" },
+          { label: "Rendez-vous", icon: Calendar, path: "/admin/appointments", bg: "from-blue-600 to-blue-500", text: "white" },
+          { label: "Messages", icon: MessageCircle, path: "/admin/messages", bg: "from-purple-600 to-purple-500", text: "white" },
+          { label: "Prescriptions", icon: ClipboardList, path: "/admin/prescriptions", bg: "from-orange-500 to-orange-400", text: "white" },
         ].map((action) => (
           <Link
             key={action.path}
             to={action.path}
-            className={`bg-gradient-to-r ${action.bg} text-${action.text} p-5 rounded-2xl shadow hover:scale-105 transition font-semibold text-sm`}
+            className={`flex items-center gap-2 bg-gradient-to-r ${action.bg} text-${action.text} p-5 rounded-2xl shadow hover:scale-105 transition font-semibold text-sm`}
           >
+            <action.icon size={18} />
             {action.label}
           </Link>
         ))}

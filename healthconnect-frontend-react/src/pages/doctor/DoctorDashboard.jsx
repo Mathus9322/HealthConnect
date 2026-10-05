@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
+import { Calendar, Users, MessageCircle } from "lucide-react";
 
 const DoctorDashboard = () => {
   const { user, token } = useAuth();
@@ -62,7 +63,7 @@ const DoctorDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-10">
 
-      {/* 🔥 HEADER */}
+      {/* HEADER */}
       <div className="bg-gradient-to-r from-teal-600 to-teal-500 text-white rounded-3xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center shadow-lg mb-10">
 
         <div className="flex items-center gap-5">
@@ -79,7 +80,7 @@ const DoctorDashboard = () => {
             <p className="text-teal-100 text-sm">{user?.email}</p>
 
             <span className="mt-2 inline-block bg-white/20 px-3 py-1 text-xs rounded-full">
-              🟢 En ligne
+              <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-1.5 align-middle" />En ligne
             </span>
           </div>
         </div>
@@ -92,7 +93,7 @@ const DoctorDashboard = () => {
         </Link>
       </div>
 
-      {/* 🔥 STATS */}
+      {/* STATS */}
       <div className="grid md:grid-cols-3 gap-6 mb-10">
 
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
@@ -118,7 +119,7 @@ const DoctorDashboard = () => {
 
       </div>
 
-      {/* 🔥 ACTIONS */}
+      {/* ACTIONS */}
       <div className="grid md:grid-cols-3 gap-6 mb-10">
 
         <Link
@@ -126,7 +127,7 @@ const DoctorDashboard = () => {
           className="bg-teal-600 text-white p-6 rounded-2xl shadow hover:scale-105 transition"
         >
           <h3 className="font-bold text-lg mb-1">
-            📅 Mes consultations
+            <Calendar size={18} className="inline-block align-[-3px] mr-1.5" />Mes consultations
           </h3>
           <p className="text-sm opacity-90">
             Gérer vos rendez-vous
@@ -138,7 +139,7 @@ const DoctorDashboard = () => {
           className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition"
         >
           <h3 className="font-bold text-teal-700 text-lg mb-1">
-            👥 Mes patients
+            <Users size={18} className="inline-block align-[-3px] mr-1.5" />Mes patients
           </h3>
           <p className="text-sm text-gray-500">
             Accéder aux dossiers
@@ -150,7 +151,7 @@ const DoctorDashboard = () => {
           className="bg-blue-100 p-6 rounded-2xl hover:shadow-lg transition"
         >
           <h3 className="font-bold text-blue-700 text-lg mb-1">
-            💬 Messages
+            <MessageCircle size={18} className="inline-block align-[-3px] mr-1.5" />Messages
           </h3>
           <p className="text-sm">
             Discuter avec vos patients
@@ -159,7 +160,7 @@ const DoctorDashboard = () => {
 
       </div>
 
-      {/* 🔥 RENDEZ-VOUS */}
+      {/* RENDEZ-VOUS */}
       <div className="bg-white p-6 rounded-2xl shadow">
 
         <div className="flex justify-between items-center mb-6">

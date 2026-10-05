@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/axios";
 import {
-  Home,
   User,
   Users,
   Calendar,
@@ -13,12 +13,31 @@ import {
   TrendingUp,
   ClipboardList,
   LayoutDashboard,
+  Globe,
 } from "lucide-react";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [unreadMessages, setUnreadMessages] = useState(0);
+
+  // Badge des messages non lus (patients et médecins), rafraîchi régulièrement
+  useEffect(() => {
+    if (!["doctor", "patient"].includes(user?.role)) return;
+    const fetchUnread = async () => {
+      if (document.hidden) return;
+      try {
+        const res = await api.get("/messages/unread-count");
+        setUnreadMessages(res.data.count || 0);
+      } catch {
+        // silencieux : le badge n'est qu'une indication
+      }
+    };
+    fetchUnread();
+    const timer = setInterval(fetchUnread, 15000);
+    return () => clearInterval(timer);
+  }, [user?.role, location.pathname]);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -34,7 +53,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     switch (role) {
       case "admin":
         return [
-          { name: "Accueil", path: "/", icon: <Home size={20} /> },
           { name: "Dashboard", path: "/dashboard/admin", icon: <LayoutDashboard size={20} /> },
           { name: "Statistiques", path: "/admin/stats", icon: <TrendingUp size={20} /> },
           { name: "Utilisateurs", path: "/admin/users", icon: <Users size={20} /> },
@@ -44,7 +62,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         ];
       case "doctor":
         return [
-          { name: "Accueil", path: "/", icon: <Home size={20} /> },
           { name: "Dashboard", path: "/dashboard/doctor", icon: <LayoutDashboard size={20} /> },
           { name: "Rendez-vous", path: "/doctor/appointments", icon: <Calendar size={20} /> },
           { name: "Mes patients", path: "/doctor/patients", icon: <Users size={20} /> },
@@ -53,18 +70,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         ];
       case "patient":
         return [
-          { name: "Accueil", path: "/", icon: <Home size={20} /> },
           { name: "Dashboard", path: "/dashboard/patient", icon: <LayoutDashboard size={20} /> },
-          { name: "Médecins", path: "/doctors", icon: <Users size={20} /> },
+          { name: "Médecins", path: "/patient/doctors", icon: <Users size={20} /> },
           { name: "Rendez-vous", path: "/patient/appointments", icon: <Calendar size={20} /> },
           { name: "Messages", path: "/patient/messages", icon: <MessageCircle size={20} /> },
           { name: "Ordonnances", path: "/patient/prescriptions", icon: <ClipboardList size={20} /> },
         ];
       default:
-        return [
-          { name: "Accueil", path: "/", icon: <Home size={20} /> },
-          { name: "Médecins", path: "/doctors", icon: <Users size={20} /> },
-        ];
+        return [];
     }
   };
 
@@ -152,8 +165,20 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   : "text-gray-700 hover:bg-gray-100"}
               `}
             >
-              {link.icon}
+              <span className="relative">
+                {link.icon}
+                {!isOpen && link.path.endsWith("/messages") && unreadMessages > 0 && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white" />
+                )}
+              </span>
               {isOpen && <span className="font-medium text-sm">{link.name}</span>}
+              {isOpen && link.path.endsWith("/messages") && unreadMessages > 0 && user?.role !== "admin" && (
+                <span className={`ml-auto min-w-[1.25rem] h-5 px-1.5 rounded-full text-[11px] font-semibold flex items-center justify-center ${
+                  isActive(link.path) ? "bg-white text-teal-700" : "bg-red-500 text-white"
+                }`}>
+                  {unreadMessages > 99 ? "99+" : unreadMessages}
+                </span>
+              )}
               {!isOpen && (
                 <span className="
                   absolute left-full top-1/2 -translate-y-1/2 ml-2
@@ -169,6 +194,38 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </Link>
           ))}
         </nav>
+
+        {/* VUE PUBLIQUE */}
+        {user && (
+          <div className="px-2 pb-2">
+            <Link
+              to="/"
+              onClick={() => setMobileOpen(false)}
+              className={`
+                relative flex items-center gap-3 p-3 rounded-lg border transition-colors group
+                ${isOpen ? "justify-start" : "justify-center"}
+                ${isActive("/")
+                  ? "bg-teal-600 border-teal-600 text-white"
+                  : "border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100"}
+              `}
+            >
+              <Globe size={20} />
+              {isOpen && <span className="font-medium text-sm">Vue publique</span>}
+              {!isOpen && (
+                <span className="
+                  absolute left-full top-1/2 -translate-y-1/2 ml-2
+                  bg-teal-400 text-teal-900 border border-teal-500 text-xs rounded py-1 px-2 whitespace-nowrap
+                  opacity-0 group-hover:opacity-100
+                  translate-x-[-10px] group-hover:translate-x-0
+                  pointer-events-none
+                  transition-all duration-300 ease-out
+                ">
+                  Vue publique
+                </span>
+              )}
+            </Link>
+          </div>
+        )}
 
         {/* PROFIL + DÉCONNEXION */}
         {user && (

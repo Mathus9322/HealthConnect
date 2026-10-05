@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { Hospital, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
 
@@ -30,7 +31,7 @@ const Login = () => {
       login(user, token);
 
       // Redirection selon rôle
-      navigate("/");
+      navigate(`/dashboard/${user.role}`);
     } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 401) {
@@ -57,7 +58,7 @@ const Login = () => {
             <div>
               <div className="flex items-center gap-3 mb-16">
                 <div className="w-10 h-10 bg-gradient-to-r from-teal-700 to-teal-500 rounded-xl flex items-center justify-center text-white">
-                  🏥
+                  <Hospital size={22} />
                 </div>
                 <span className="text-2xl font-bold text-teal-700">HealthConnect</span>
               </div>
@@ -116,7 +117,7 @@ const Login = () => {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-                    >👁</button>
+                    >{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}</button>
                   </div>
                 </div>
 

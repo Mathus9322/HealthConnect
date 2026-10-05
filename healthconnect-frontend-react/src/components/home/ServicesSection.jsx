@@ -1,125 +1,135 @@
 import React from "react";
-import { Video, Calendar, Shield, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  Calendar,
+  MessageCircle,
+  FileText,
+  Stethoscope,
+  CheckCircle,
+  Lock,
+  ArrowRight,
+} from "lucide-react";
+
+
+const services = [
+  {
+    icon: Calendar,
+    title: "Prise de RDV simplifiée",
+    text: "Consultez les disponibilités et réservez votre créneau en quelques clics.",
+    link: "/patient/appointments",
+    cta: "Prendre rendez-vous",
+  },
+  {
+    icon: MessageCircle,
+    title: "Messagerie médecin",
+    text: "Posez vos questions et échangez directement avec votre praticien.",
+    link: "/patient/messages",
+    cta: "Envoyer un message",
+  },
+  {
+    icon: FileText,
+    title: "Ordonnances en ligne",
+    text: "Retrouvez toutes vos prescriptions au même endroit, à tout moment.",
+    link: "/patient/prescriptions",
+    cta: "Voir mes ordonnances",
+  },
+  {
+    icon: Stethoscope,
+    title: "Médecins qualifiés",
+    text: "Parcourez les profils, spécialités et années d'expérience de nos praticiens.",
+    link: "/doctors",
+    cta: "Découvrir les médecins",
+  },
+];
+
 
 const ServicesSection = () => {
   return (
-    <div className="bg-gradient-to-l from-teal-100 to-teal-600 py-16">
-      
+    <section className="bg-gray-50 py-20">
+
       {/* ===== SERVICES ===== */}
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-center text-2xl font-semibold mb-10">
-          Nos Services de Santé
-        </h2>
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Nos services
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
+            Tout votre parcours de santé, réuni
+          </h2>
+          <p className="text-gray-600">
+            Des outils pensés pour vous faire gagner du temps et rester en lien avec vos médecins.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          
-          {/* CARD */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="bg-teal-600 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-              <Video className="text-white" size={20} />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map(({ icon: Icon, title, text, link, cta }) => (
+            <div
+              key={title}
+              className="group relative bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300"
+            >
+              <div className="bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white w-12 h-12 flex items-center justify-center rounded-xl mb-5 transition">
+                <Icon size={22} />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
+              <p className="text-gray-600 text-sm mb-5 leading-relaxed">{text}</p>
+              <Link
+                to={link}
+                className="inline-flex items-center gap-1 text-teal-600 text-sm font-medium"
+              >
+                {cta}
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
-            <h3 className="font-semibold mb-2">Téléconsultations</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Consultez votre médecin où que vous soyez via notre plateforme vidéo.
-            </p>
-            <button className="text-teal-600 text-sm font-medium">
-              Découvrir →
-            </button>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="bg-teal-600 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-              <Calendar className="text-white" size={20} />
-            </div>
-            <h3 className="font-semibold mb-2">Prise de RDV simplifiée</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Réservez vos créneaux en quelques clics avec des praticiens certifiés.
-            </p>
-            <button className="text-teal-600 text-sm font-medium">
-              Prendre rendez-vous →
-            </button>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div className="bg-teal-600 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-              <Shield className="text-white" size={20} />
-            </div>
-            <h3 className="font-semibold mb-2">Dossiers sécurisés</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Vos données médicales sont chiffrées et protégées.
-            </p>
-            <button className="text-teal-600 text-sm font-medium">
-              Accéder à mon dossier →
-            </button>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* ===== SECURITY SECTION ===== */}
-      <div className="max-w-6xl mx-auto px-6 mt-20 grid md:grid-cols-2 gap-10 items-center">
-        
-        {/* IMAGE */}
-        <div className="relative">
-          <img
-            src="https://images.unsplash.com/photo-1579684385127-1ef15d508118"
-            alt="health tech"
-            className="rounded-2xl shadow-md"
-          />
+      {/* ===== SÉCURITÉ ===== */}
+      <div className="max-w-6xl mx-auto px-6 mt-24 grid md:grid-cols-2 gap-12 items-center">
 
-          {/* Badge */}
-          <div className="absolute bottom-4 left-4 bg-orange-500 text-white px-4 py-3 rounded-xl shadow-lg text-sm">
-            <p className="font-bold">100%</p>
-            <p>Protection des données</p>
+        {/* VISUEL */}
+        <div className="relative">
+          <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-gray-900 via-teal-900 to-teal-700 p-10 flex items-center justify-center overflow-hidden shadow-2xl">
+            <div className="absolute w-72 h-72 rounded-full border border-white/10" />
+            <div className="absolute w-52 h-52 rounded-full border border-white/15" />
+            <div className="absolute w-32 h-32 rounded-full bg-teal-400/20 blur-xl" />
+            <div className="relative bg-white/10 backdrop-blur border border-white/20 w-24 h-24 rounded-3xl flex items-center justify-center text-white">
+              <Lock size={40} />
+            </div>
+          </div>
+
+          <div className="absolute -bottom-5 right-6 bg-white px-5 py-3 rounded-2xl shadow-xl text-sm">
+            <p className="font-bold text-gray-900">Accès protégé</p>
+            <p className="text-gray-500 text-xs">Connexion par compte personnel</p>
           </div>
         </div>
 
-        {/* TEXT */}
+        {/* TEXTE */}
         <div>
-          <span className="text-xs bg-gray-200 px-3 py-1 rounded-full">
-            Technologies & sécurité
+          <span className="text-xs font-medium bg-teal-50 text-teal-700 px-3 py-1 rounded-full">
+            Confidentialité
           </span>
 
-          <h3 className="text-2xl font-semibold mt-4 mb-4">
-            La sécurité de vos données est notre priorité absolue
+          <h3 className="text-3xl font-bold text-gray-900 mt-4 mb-6">
+            Vos données de santé restent entre vous et votre médecin
           </h3>
 
-          <div className="space-y-4 text-gray-600 text-sm">
-            <p className="flex items-start gap-2">
-              <CheckCircle className="text-teal-600" size={18} />
-              Hébergement de données de santé (HDS)
-            </p>
-
-            <p className="flex items-start gap-2">
-              <CheckCircle className="text-teal-600" size={18} />
-              Accès instantané à vos documents
-            </p>
-
-            <p className="flex items-start gap-2">
-              <CheckCircle className="text-teal-600" size={18} />
-              Chiffrement de bout en bout
-            </p>
+          <div className="space-y-4 text-gray-600">
+            {[
+              "Espaces séparés pour patients, médecins et administrateurs",
+              "Accès à vos rendez-vous et ordonnances réservé à votre compte",
+              "Échanges privés avec vos praticiens",
+            ].map((item) => (
+              <p key={item} className="flex items-start gap-3">
+                <CheckCircle className="text-teal-600 shrink-0 mt-0.5" size={20} />
+                {item}
+              </p>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ===== CTA ===== */}
-      <div className="max-w-4xl mx-auto px-6 mt-20">
-        <div className="bg-teal-700 text-white text-center p-10 rounded-3xl shadow-lg">
-          <h3 className="text-xl font-semibold mb-2">
-            Prêt à simplifier votre parcours de santé ?
-          </h3>
-          <p className="text-sm mb-6 opacity-90">
-            Rejoignez des milliers de patients qui nous font confiance.
-          </p>
-
-          <button className="bg-white text-teal-700 px-6 py-3 rounded-full font-medium">
-            Commencer l’aventure gratuitement
-          </button>
-        </div>
-      </div>
-
- 
-    </div>
+    </section>
   );
 };
 

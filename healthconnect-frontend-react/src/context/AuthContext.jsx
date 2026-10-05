@@ -5,7 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); // 🔥 IMPORTANT
+  const [loading, setLoading] = useState(true); // IMPORTANT
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(savedUser));
     }
 
-    setLoading(false); // 🔥 FIN DU CHARGEMENT
+    setLoading(false); // FIN DU CHARGEMENT
   }, []);
 
   const login = (userData, jwt) => {

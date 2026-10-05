@@ -134,7 +134,9 @@ const AdminMessages = () => {
                     </div>
                   </td>
                   <td className="p-4 text-gray-600">{m.receiver?.name}</td>
-                  <td className="p-4 text-gray-500 max-w-[200px] truncate">{m.content || m.body}</td>
+                  <td className="p-4 text-gray-500 max-w-[200px] truncate">
+                    {m.content || m.body || (m.attachment_name && <span className="italic">Fichier joint : {m.attachment_name}</span>)}
+                  </td>
                   <td className="p-4 text-gray-400 text-xs">
                     {m.created_at ? new Date(m.created_at).toLocaleDateString("fr-FR") : "—"}
                   </td>
@@ -207,6 +209,11 @@ const AdminMessages = () => {
                 <p className="text-gray-500 mb-2">Contenu</p>
                 <div className="bg-gray-50 rounded-xl p-4 text-gray-800 leading-relaxed">
                   {viewMessage.content || viewMessage.body}
+                  {viewMessage.attachment_name && (
+                    <span className="block mt-2 text-sm italic text-gray-500">
+                      Fichier joint : {viewMessage.attachment_name} (contenu confidentiel, non consultable par l'administration)
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

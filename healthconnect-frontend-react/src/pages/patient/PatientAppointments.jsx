@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import api from "../../api/axios";
 import Swal from "sweetalert2";
 
@@ -84,6 +85,7 @@ const PatientAppointment = () => {
   const [appointments,   setAppointments]   = useState([]);
   const [weekDays,       setWeekDays]       = useState([]);
   const [loading,        setLoading]        = useState(true);
+  const [searchParams] = useSearchParams();
 
   /* generate week once */
   useEffect(() => { setWeekDays(getCurrentWeek()); }, []);
@@ -94,7 +96,9 @@ const PatientAppointment = () => {
       try {
         const res = await api.get("/doctors");
         setDoctors(res.data);
-        setSelectedDoctor(res.data[0]);
+        // Médecin présélectionné depuis une carte (?doctor=ID)
+        const preselectedId = parseInt(searchParams.get("doctor"));
+        setSelectedDoctor(res.data.find((d) => d.id === preselectedId) || res.data[0]);
       } catch (e) {
         console.error(e);
       } finally {
@@ -102,6 +106,7 @@ const PatientAppointment = () => {
       }
     };
     fetchDoctors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* load patient appointments */
@@ -249,7 +254,7 @@ const PatientAppointment = () => {
             >
               {doctors.map((doc) => (
                 <option key={doc.id} value={doc.id}>
-                  {doc.user?.name || doc.name} — {doc.speciality}
+                  {doc.user?.name || doc.name}{doc.specialty ? ` - ${doc.specialty}` : ""}
                 </option>
               ))}
             </select>
@@ -260,9 +265,9 @@ const PatientAppointment = () => {
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               {/* avatar banner */}
               <div className="h-36 bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center">
-                {selectedDoctor.avatar ? (
+                {(selectedDoctor.avatar || selectedDoctor.user?.avatar) ? (
                   <img
-                    src={selectedDoctor.avatar}
+                    src={selectedDoctor.avatar || selectedDoctor.user?.avatar}
                     alt={selectedDoctor.user?.name}
                     className="w-24 h-24 rounded-full object-cover ring-4 ring-white shadow"
                   />
@@ -278,7 +283,7 @@ const PatientAppointment = () => {
                   {selectedDoctor.user?.name || selectedDoctor.name}
                 </h2>
                 <p className="text-sm text-teal-600 mt-0.5">
-                  {selectedDoctor.speciality || selectedDoctor.specialty}
+                  {selectedDoctor.specialty}
                 </p>
 
                 <div className="flex items-center justify-center gap-1.5 mt-3">
@@ -391,12 +396,12 @@ const PatientAppointment = () => {
                   key={appt.id}
                   className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group"
                 >
-                  <Avatar name={appt.name} src={appt.avatar} size="sm" />
+                  <Avatar name={appt.doctor?.name || ""} src={appt.doctor?.avatar} size="sm" />
 
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">{appt.doctor_name}</p>
+                    <p className="text-sm font-semibold text-gray-900 truncate">{appt.doctor?.name ? `Dr. ${appt.doctor.name}` : "Médecin"}</p>
                     <p className="text-xs text-gray-500 mt-0.5">
-                      {appt.doctor_specialty && <span>{appt.doctor_specialty} · </span>}
+                      {appt.doctor?.specialty && <span>{appt.doctor.specialty} · </span>}
                       {new Date(appt.date).toLocaleDateString("fr-FR", {
                         weekday: "long", day: "numeric", month: "long",
                       })}{" "}

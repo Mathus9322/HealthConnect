@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import {
-  Users, Search, X, Eye, ClipboardList,
-  Phone, MapPin, Droplet, AlertCircle, ChevronRight,
+  Users, Search, X, Eye, ClipboardList, Phone, MapPin, Droplet, AlertCircle, ChevronRight, MessageCircle,
 } from "lucide-react";
 
 const DoctorPatients = () => {
@@ -244,7 +243,7 @@ const DoctorPatients = () => {
                   }}
                   className="flex-1 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
                 >
-                  💬 Envoyer un message
+                  <MessageCircle size={16} className="inline-block align-[-3px] mr-1.5" />Envoyer un message
                 </button>
                 <button
                   onClick={() => setSelected(null)}

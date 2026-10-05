@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AppLayout from "./layouts/AppLayout";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import PublicLayout from "./layouts/PublicLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -37,40 +37,51 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <AppLayout>
-          <Routes>
-            {/* ─── Publiques ─── */}
-            <Route path="/"            element={<Home />} />
-            <Route path="/login"       element={<Login />} />
-            <Route path="/register"    element={<Register />} />
-            <Route path="/doctors"     element={<Doctor />} />
+        <Routes>
+          {/* ─── Pages publiques : navbar + footer ─── */}
+          <Route element={<PublicLayout />}>
+            <Route path="/"             element={<Home />} />
+            <Route path="/doctors"      element={<Doctor />} />
+            <Route path="/login"        element={<Login />} />
+            <Route path="/register"     element={<Register />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+          </Route>
 
-            {/* ─── Patient ─── */}
-            <Route path="/dashboard/patient"     element={<ProtectedRoute roles={["patient"]}><PatientDashboard /></ProtectedRoute>} />
-            <Route path="/patient/appointments"  element={<ProtectedRoute roles={["patient"]}><PatientAppointment /></ProtectedRoute>} />
-            <Route path="/patient/messages"      element={<ProtectedRoute roles={["patient"]}><PatientMessages /></ProtectedRoute>} />
-            <Route path="/patient/prescriptions" element={<ProtectedRoute roles={["patient"]}><PatientPrescriptions /></ProtectedRoute>} />
+          {/* ─── Espace patient : sidebar ─── */}
+          <Route element={<DashboardLayout roles={["patient"]} />}>
+            <Route path="/dashboard/patient"     element={<PatientDashboard />} />
+            <Route path="/patient/doctors"       element={<Doctor />} />
+            <Route path="/patient/appointments"  element={<PatientAppointment />} />
+            <Route path="/patient/messages"      element={<PatientMessages />} />
+            <Route path="/patient/prescriptions" element={<PatientPrescriptions />} />
+          </Route>
 
-            {/* ─── Médecin ─── */}
-            <Route path="/dashboard/doctor"      element={<ProtectedRoute roles={["doctor"]}><DoctorDashboard /></ProtectedRoute>} />
-            <Route path="/doctor/appointments"   element={<ProtectedRoute roles={["doctor"]}><DoctorAppointment /></ProtectedRoute>} />
-            <Route path="/doctor/messages"       element={<ProtectedRoute roles={["doctor"]}><DoctorMessages /></ProtectedRoute>} />
-            <Route path="/doctor/patients"       element={<ProtectedRoute roles={["doctor"]}><DoctorPatients /></ProtectedRoute>} />
-            <Route path="/doctor/prescriptions"  element={<ProtectedRoute roles={["doctor"]}><DoctorPrescriptions /></ProtectedRoute>} />
+          {/* ─── Espace médecin : sidebar ─── */}
+          <Route element={<DashboardLayout roles={["doctor"]} />}>
+            <Route path="/dashboard/doctor"     element={<DoctorDashboard />} />
+            <Route path="/doctor/appointments"  element={<DoctorAppointment />} />
+            <Route path="/doctor/messages"      element={<DoctorMessages />} />
+            <Route path="/doctor/patients"      element={<DoctorPatients />} />
+            <Route path="/doctor/prescriptions" element={<DoctorPrescriptions />} />
+          </Route>
 
-            {/* ─── Admin ─── */}
-            <Route path="/dashboard/admin"      element={<ProtectedRoute roles={["admin"]}><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/users"          element={<ProtectedRoute roles={["admin"]}><AdminUsers /></ProtectedRoute>} />
-            <Route path="/admin/appointments"   element={<ProtectedRoute roles={["admin"]}><AdminAppointments /></ProtectedRoute>} />
-            <Route path="/admin/messages"       element={<ProtectedRoute roles={["admin"]}><AdminMessages /></ProtectedRoute>} />
-            <Route path="/admin/prescriptions"  element={<ProtectedRoute roles={["admin"]}><AdminPrescriptions /></ProtectedRoute>} />
-            <Route path="/admin/stats"          element={<ProtectedRoute roles={["admin"]}><AdminStats /></ProtectedRoute>} />
+          {/* ─── Espace administrateur : sidebar ─── */}
+          <Route element={<DashboardLayout roles={["admin"]} />}>
+            <Route path="/dashboard/admin"     element={<AdminDashboard />} />
+            <Route path="/admin/users"         element={<AdminUsers />} />
+            <Route path="/admin/appointments"  element={<AdminAppointments />} />
+            <Route path="/admin/messages"      element={<AdminMessages />} />
+            <Route path="/admin/prescriptions" element={<AdminPrescriptions />} />
+            <Route path="/admin/stats"         element={<AdminStats />} />
+          </Route>
 
-            {/* ─── Profil ─── */}
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          </Routes>
-        </AppLayout>
+          {/* ─── Profil : tous les rôles connectés ─── */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </Router>
     </AuthProvider>
   );
