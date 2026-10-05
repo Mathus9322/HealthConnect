@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    // 🔹 Afficher le profil de l'utilisateur connecté
+    // Afficher le profil de l'utilisateur connecté
     public function show(Request $request)
     {
         $user = $request->user();

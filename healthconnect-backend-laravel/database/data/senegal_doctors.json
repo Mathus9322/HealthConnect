@@ -1,0 +1,1244 @@
+[
+  {
+    "name": "Ousmane Fall",
+    "email": "ousmane.fall@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/ousmane-fall.svg",
+    "specialty": "Médecine générale",
+    "experience": 12,
+    "price": 10000,
+    "region": "Dakar",
+    "locality": "Plateau",
+    "latitude": 14.677475,
+    "longitude": -17.442112,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Khady Ndiaye",
+    "email": "khady.ndiaye@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/khady-ndiaye.svg",
+    "specialty": "Gynécologie",
+    "experience": 9,
+    "price": 17500,
+    "region": "Dakar",
+    "locality": "Médina",
+    "latitude": 14.678404,
+    "longitude": -17.455303,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Cheikh Mbaye",
+    "email": "cheikh.mbaye@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/cheikh-mbaye.svg",
+    "specialty": "Cardiologie",
+    "experience": 22,
+    "price": 30000,
+    "region": "Dakar",
+    "locality": "Mermoz",
+    "latitude": 14.703807,
+    "longitude": -17.472437,
+    "bio": "Cardiologue, je prends en charge l'hypertension, les troubles du rythme et la prévention des maladies cardiovasculaires.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Ndeye Gueye",
+    "email": "ndeye.gueye@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/ndeye-gueye.svg",
+    "specialty": "Pédiatrie",
+    "experience": 7,
+    "price": 14500,
+    "region": "Dakar",
+    "locality": "Parcelles Assainies",
+    "latitude": 14.769245,
+    "longitude": -17.445156,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Abdoulaye Seck",
+    "email": "abdoulaye.seck@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/abdoulaye-seck.svg",
+    "specialty": "Ophtalmologie",
+    "experience": 15,
+    "price": 20000,
+    "region": "Dakar",
+    "locality": "Grand Yoff",
+    "latitude": 14.740711,
+    "longitude": -17.452183,
+    "bio": "Ophtalmologue, je réalise les examens de la vue et le suivi des pathologies oculaires.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Rokhaya Diouf",
+    "email": "rokhaya.diouf@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/rokhaya-diouf.svg",
+    "specialty": "Dermatologie",
+    "experience": 11,
+    "price": 17500,
+    "region": "Dakar",
+    "locality": "Ouakam",
+    "latitude": 14.719809,
+    "longitude": -17.495453,
+    "bio": "Dermatologue, je traite les affections de la peau, des cheveux et des ongles chez l'adulte et l'enfant.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Mamadou Niang",
+    "email": "mamadou.niang@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/mamadou-niang.svg",
+    "specialty": "Chirurgie dentaire",
+    "experience": 6,
+    "price": 12500,
+    "region": "Dakar",
+    "locality": "Pikine",
+    "latitude": 14.756647,
+    "longitude": -17.391004,
+    "bio": "Chirurgien(ne)-dentiste, je propose soins dentaires, détartrage et conseils d'hygiène bucco-dentaire.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Astou Thiam",
+    "email": "astou.thiam@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/astou-thiam.svg",
+    "specialty": "Psychiatrie",
+    "experience": 14,
+    "price": 22500,
+    "region": "Dakar",
+    "locality": "Guédiawaye",
+    "latitude": 14.782943,
+    "longitude": -17.396943,
+    "bio": "Psychiatre, j'accompagne les patients souffrant d'anxiété, de dépression et de troubles du sommeil.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Babacar Wade",
+    "email": "babacar.wade@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/babacar-wade.svg",
+    "specialty": "Neurologie",
+    "experience": 18,
+    "price": 30000,
+    "region": "Dakar",
+    "locality": "Rufisque",
+    "latitude": 14.709883,
+    "longitude": -17.276715,
+    "bio": "Neurologue, je prends en charge les migraines, l'épilepsie et les troubles neurologiques.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Seynabou Dieng",
+    "email": "seynabou.dieng@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/seynabou-dieng.svg",
+    "specialty": "Médecine générale",
+    "experience": 4,
+    "price": 10000,
+    "region": "Dakar",
+    "locality": "Keur Massar",
+    "latitude": 14.779656,
+    "longitude": -17.308902,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Pape Mbengue",
+    "email": "pape.mbengue@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/pape-mbengue.svg",
+    "specialty": "ORL",
+    "experience": 10,
+    "price": 17500,
+    "region": "Dakar",
+    "locality": "Plateau",
+    "latitude": 14.669968,
+    "longitude": -17.441422,
+    "bio": "Médecin ORL, je traite les affections du nez, de la gorge et des oreilles.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Mame Diarra Sène",
+    "email": "mame.diarra.sene@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/mame-diarra-sene.svg",
+    "specialty": "Endocrinologie",
+    "experience": 16,
+    "price": 25000,
+    "region": "Dakar",
+    "locality": "Mermoz",
+    "latitude": 14.714699,
+    "longitude": -17.477107,
+    "bio": "Endocrinologue, je suis spécialisé(e) dans la prise en charge du diabète et des troubles hormonaux.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Alioune Kébé",
+    "email": "alioune.kebe@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/alioune-kebe.svg",
+    "specialty": "Gastro-entérologie",
+    "experience": 13,
+    "price": 22500,
+    "region": "Dakar",
+    "locality": "Médina",
+    "latitude": 14.681181,
+    "longitude": -17.449024,
+    "bio": "Gastro-entérologue, je prends en charge les troubles digestifs et les maladies du foie.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Bineta Faye",
+    "email": "bineta.faye@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/bineta-faye.svg",
+    "specialty": "Gynécologie",
+    "experience": 17,
+    "price": 17500,
+    "region": "Thiès",
+    "locality": "Thiès Ville",
+    "latitude": 14.784536,
+    "longitude": -16.930786,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Modou Sarr",
+    "email": "modou.sarr@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/modou-sarr.svg",
+    "specialty": "Médecine générale",
+    "experience": 8,
+    "price": 7500,
+    "region": "Thiès",
+    "locality": "Mbour",
+    "latitude": 14.42445,
+    "longitude": -16.966199,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Coumba Ndour",
+    "email": "coumba.ndour@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/coumba-ndour.svg",
+    "specialty": "Pédiatrie",
+    "experience": 12,
+    "price": 12000,
+    "region": "Thiès",
+    "locality": "Tivaouane",
+    "latitude": 14.946792,
+    "longitude": -16.816706,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Serigne Cissé",
+    "email": "serigne.cisse@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/serigne-cisse.svg",
+    "specialty": "Rhumatologie",
+    "experience": 20,
+    "price": 20500,
+    "region": "Thiès",
+    "locality": "Saly",
+    "latitude": 14.441363,
+    "longitude": -17.013175,
+    "bio": "Rhumatologue, je traite les douleurs articulaires, l'arthrose et les maladies des os.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Yacine Diop",
+    "email": "yacine.diop@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/yacine-diop.svg",
+    "specialty": "Chirurgie dentaire",
+    "experience": 5,
+    "price": 10000,
+    "region": "Thiès",
+    "locality": "Joal-Fadiouth",
+    "latitude": 14.169379,
+    "longitude": -16.832794,
+    "bio": "Chirurgien(ne)-dentiste, je propose soins dentaires, détartrage et conseils d'hygiène bucco-dentaire.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Thierno Sow",
+    "email": "thierno.sow@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/thierno-sow.svg",
+    "specialty": "Cardiologie",
+    "experience": 19,
+    "price": 27500,
+    "region": "Saint-Louis",
+    "locality": "Saint-Louis",
+    "latitude": 16.027051,
+    "longitude": -16.47744,
+    "bio": "Cardiologue, je prends en charge l'hypertension, les troubles du rythme et la prévention des maladies cardiovasculaires.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Aïssatou Ba",
+    "email": "aissatou.ba@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/aissatou-ba.svg",
+    "specialty": "Pédiatrie",
+    "experience": 10,
+    "price": 12000,
+    "region": "Saint-Louis",
+    "locality": "Richard-Toll",
+    "latitude": 16.457177,
+    "longitude": -15.707766,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Boubacar Diallo",
+    "email": "boubacar.diallo@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/boubacar-diallo.svg",
+    "specialty": "Médecine générale",
+    "experience": 7,
+    "price": 7500,
+    "region": "Saint-Louis",
+    "locality": "Podor",
+    "latitude": 16.654052,
+    "longitude": -14.965186,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Dieynaba Ly",
+    "email": "dieynaba.ly@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/dieynaba-ly.svg",
+    "specialty": "Ophtalmologie",
+    "experience": 9,
+    "price": 15000,
+    "region": "Saint-Louis",
+    "locality": "Dagana",
+    "latitude": 16.517911,
+    "longitude": -15.504742,
+    "bio": "Ophtalmologue, je réalise les examens de la vue et le suivi des pathologies oculaires.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Sokhna Lô",
+    "email": "sokhna.lo@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/sokhna-lo.svg",
+    "specialty": "Gynécologie",
+    "experience": 13,
+    "price": 15000,
+    "region": "Diourbel",
+    "locality": "Mbacké",
+    "latitude": 14.786131,
+    "longitude": -15.912131,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Assane Ndiaye",
+    "email": "assane.ndiaye@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/assane-ndiaye.svg",
+    "specialty": "Pneumologie",
+    "experience": 15,
+    "price": 20500,
+    "region": "Diourbel",
+    "locality": "Diourbel",
+    "latitude": 14.6513,
+    "longitude": -16.225488,
+    "bio": "Pneumologue, je prends en charge l'asthme, les infections respiratoires et les maladies pulmonaires.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Ngoné Fall",
+    "email": "ngone.fall@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/ngone-fall.svg",
+    "specialty": "Médecine générale",
+    "experience": 6,
+    "price": 7500,
+    "region": "Diourbel",
+    "locality": "Bambey",
+    "latitude": 14.70272,
+    "longitude": -16.451746,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Lamine Touré",
+    "email": "lamine.toure@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/lamine-toure.svg",
+    "specialty": "Urologie",
+    "experience": 21,
+    "price": 22500,
+    "region": "Kaolack",
+    "locality": "Kaolack",
+    "latitude": 14.15386,
+    "longitude": -16.070098,
+    "bio": "Urologue, je traite les affections des voies urinaires et de l'appareil génital masculin.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Marième Gaye",
+    "email": "marieme.gaye@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/marieme-gaye.svg",
+    "specialty": "Pédiatrie",
+    "experience": 8,
+    "price": 12000,
+    "region": "Kaolack",
+    "locality": "Nioro du Rip",
+    "latitude": 13.746707,
+    "longitude": -15.805966,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Malick Sy",
+    "email": "malick.sy@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/malick-sy.svg",
+    "specialty": "Médecine générale",
+    "experience": 5,
+    "price": 7500,
+    "region": "Kaolack",
+    "locality": "Guinguinéo",
+    "latitude": 14.274687,
+    "longitude": -15.948479,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Ismaïla Diatta",
+    "email": "ismaila.diatta@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/ismaila-diatta.svg",
+    "specialty": "Chirurgie dentaire",
+    "experience": 14,
+    "price": 10000,
+    "region": "Ziguinchor",
+    "locality": "Ziguinchor",
+    "latitude": 12.588205,
+    "longitude": -16.276136,
+    "bio": "Chirurgien(ne)-dentiste, je propose soins dentaires, détartrage et conseils d'hygiène bucco-dentaire.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Pauline Mendy",
+    "email": "pauline.mendy@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/pauline-mendy.svg",
+    "specialty": "Gynécologie",
+    "experience": 12,
+    "price": 15000,
+    "region": "Ziguinchor",
+    "locality": "Bignona",
+    "latitude": 12.810631,
+    "longitude": -16.228307,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Ramatoulaye Sall",
+    "email": "ramatoulaye.sall@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/ramatoulaye-sall.svg",
+    "specialty": "Dermatologie",
+    "experience": 10,
+    "price": 15000,
+    "region": "Louga",
+    "locality": "Louga",
+    "latitude": 15.62125,
+    "longitude": -16.229047,
+    "bio": "Dermatologue, je traite les affections de la peau, des cheveux et des ongles chez l'adulte et l'enfant.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Ibrahima Gaye",
+    "email": "ibrahima.gaye@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/ibrahima-gaye.svg",
+    "specialty": "Médecine générale",
+    "experience": 16,
+    "price": 10000,
+    "region": "Louga",
+    "locality": "Linguère",
+    "latitude": 15.393631,
+    "longitude": -15.118298,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Oumou Kane",
+    "email": "oumou.kane@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/oumou-kane.svg",
+    "specialty": "Pédiatrie",
+    "experience": 6,
+    "price": 12000,
+    "region": "Louga",
+    "locality": "Kébémer",
+    "latitude": 15.376816,
+    "longitude": -16.443815,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Daouda Faye",
+    "email": "daouda.faye@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/daouda-faye.svg",
+    "specialty": "Cardiologie",
+    "experience": 17,
+    "price": 27500,
+    "region": "Fatick",
+    "locality": "Fatick",
+    "latitude": 14.345494,
+    "longitude": -16.40847,
+    "bio": "Cardiologue, je prends en charge l'hypertension, les troubles du rythme et la prévention des maladies cardiovasculaires.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Penda Sarr",
+    "email": "penda.sarr@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/penda-sarr.svg",
+    "specialty": "Médecine générale",
+    "experience": 8,
+    "price": 7500,
+    "region": "Fatick",
+    "locality": "Foundiougne",
+    "latitude": 14.134348,
+    "longitude": -16.473327,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Aliou Baldé",
+    "email": "aliou.balde@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/aliou-balde.svg",
+    "specialty": "Pédiatrie",
+    "experience": 11,
+    "price": 12000,
+    "region": "Kolda",
+    "locality": "Kolda",
+    "latitude": 12.883544,
+    "longitude": -14.952768,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Fatoumata Diao",
+    "email": "fatoumata.diao@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/fatoumata-diao.svg",
+    "specialty": "Gynécologie",
+    "experience": 9,
+    "price": 15000,
+    "region": "Kolda",
+    "locality": "Vélingara",
+    "latitude": 13.148732,
+    "longitude": -14.121787,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Souleymane Dramé",
+    "email": "souleymane.drame@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/souleymane-drame.svg",
+    "specialty": "Médecine générale",
+    "experience": 13,
+    "price": 7500,
+    "region": "Tambacounda",
+    "locality": "Tambacounda",
+    "latitude": 13.768455,
+    "longitude": -13.664736,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Maïmouna Sidibé",
+    "email": "maimouna.sidibe@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/maimouna-sidibe.svg",
+    "specialty": "Pédiatrie",
+    "experience": 7,
+    "price": 12000,
+    "region": "Tambacounda",
+    "locality": "Bakel",
+    "latitude": 14.894291,
+    "longitude": -12.454799,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "El Hadji Ndao",
+    "email": "el.hadji.ndao@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/el-hadji-ndao.svg",
+    "specialty": "Médecine générale",
+    "experience": 10,
+    "price": 7500,
+    "region": "Kaffrine",
+    "locality": "Kaffrine",
+    "latitude": 14.103023,
+    "longitude": -15.548252,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Adama Kébé",
+    "email": "adama.kebe@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/adama-kebe.svg",
+    "specialty": "Gynécologie",
+    "experience": 8,
+    "price": 15000,
+    "region": "Kaffrine",
+    "locality": "Koungheul",
+    "latitude": 13.975883,
+    "longitude": -14.804295,
+    "bio": "Gynécologue-obstétricien(ne), j'assure le suivi gynécologique, la contraception et le suivi de grossesse.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Idrissa Keïta",
+    "email": "idrissa.keita@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/idrissa-keita.svg",
+    "specialty": "Médecine générale",
+    "experience": 12,
+    "price": 7500,
+    "region": "Kédougou",
+    "locality": "Kédougou",
+    "latitude": 12.557054,
+    "longitude": -12.16986,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  },
+  {
+    "name": "Mariama Camara",
+    "email": "mariama.camara@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/mariama-camara.svg",
+    "specialty": "Pédiatrie",
+    "experience": 5,
+    "price": 12000,
+    "region": "Kédougou",
+    "locality": "Saraya",
+    "latitude": 12.832227,
+    "longitude": -11.747054,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Monday": [
+        "09H-17H"
+      ],
+      "Tuesday": [
+        "09H-17H"
+      ],
+      "Wednesday": [
+        "09H-17H"
+      ],
+      "Thursday": [
+        "09H-17H"
+      ]
+    }
+  },
+  {
+    "name": "Omar Tall",
+    "email": "omar.tall@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/omar-tall.svg",
+    "specialty": "Ophtalmologie",
+    "experience": 14,
+    "price": 15000,
+    "region": "Matam",
+    "locality": "Ourossogui",
+    "latitude": 15.610995,
+    "longitude": -13.315379,
+    "bio": "Ophtalmologue, je réalise les examens de la vue et le suivi des pathologies oculaires.",
+    "available_time": {
+      "Monday": [
+        "10H-14H"
+      ],
+      "Thursday": [
+        "10H-18H"
+      ],
+      "Saturday": [
+        "09H-13H"
+      ]
+    }
+  },
+  {
+    "name": "Awa Sy",
+    "email": "awa.sy@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/awa-sy.svg",
+    "specialty": "Médecine générale",
+    "experience": 7,
+    "price": 7500,
+    "region": "Matam",
+    "locality": "Kanel",
+    "latitude": 15.496503,
+    "longitude": -13.174576,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Tuesday": [
+        "08H-16H"
+      ],
+      "Wednesday": [
+        "08H-16H"
+      ],
+      "Friday": [
+        "08H-16H"
+      ]
+    }
+  },
+  {
+    "name": "Mouhamed Sané",
+    "email": "mouhamed.sane@example.com",
+    "gender": "M",
+    "avatar": "/avatars/doctors/mouhamed-sane.svg",
+    "specialty": "Médecine générale",
+    "experience": 9,
+    "price": 7500,
+    "region": "Sédhiou",
+    "locality": "Sédhiou",
+    "latitude": 12.703205,
+    "longitude": -15.551023,
+    "bio": "Médecin généraliste à l'écoute, je vous accompagne pour vos consultations courantes, bilans de santé et suivis de maladies chroniques.",
+    "available_time": {
+      "Monday": [
+        "08H-13H",
+        "15H-18H"
+      ],
+      "Wednesday": [
+        "08H-13H"
+      ],
+      "Friday": [
+        "08H-13H",
+        "15H-18H"
+      ]
+    }
+  },
+  {
+    "name": "Marie Goudiaby",
+    "email": "marie.goudiaby@example.com",
+    "gender": "F",
+    "avatar": "/avatars/doctors/marie-goudiaby.svg",
+    "specialty": "Pédiatrie",
+    "experience": 6,
+    "price": 12000,
+    "region": "Sédhiou",
+    "locality": "Goudomp",
+    "latitude": 12.584918,
+    "longitude": -15.880169,
+    "bio": "Pédiatre attentionné(e), je suis la croissance et la santé des enfants, de la naissance à l'adolescence.",
+    "available_time": {
+      "Tuesday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Thursday": [
+        "09H-12H",
+        "14H-17H"
+      ],
+      "Saturday": [
+        "09H-12H"
+      ]
+    }
+  }
+]

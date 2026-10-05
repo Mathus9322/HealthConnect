@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\Notifier;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
@@ -51,7 +52,15 @@ class AdminUserController extends Controller
             'role'  => 'sometimes|required|in:admin,doctor,patient',
         ]);
 
+        $previousRole = $user->role;
         $user->update($request->only(['name', 'email', 'role']));
+
+        if ($previousRole !== $user->role) {
+            $labels = ['admin' => 'administrateur', 'doctor' => 'médecin', 'patient' => 'patient'];
+            Notifier::send($user, 'account_updated', 'Votre compte a été modifié',
+                "L'administration a changé votre rôle : vous êtes maintenant {$labels[$user->role]}.",
+                "/dashboard/{$user->role}");
+        }
 
         return response()->json([
             'message' => 'Utilisateur mis à jour avec succès.',

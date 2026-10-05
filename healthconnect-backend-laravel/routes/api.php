@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController, DoctorController, PatientController,
     AppointmentController, MessageController,
-    PrescriptionController, ProfileController
+    PrescriptionController, ProfileController, NotificationController
 };
 use App\Http\Controllers\Admin\{
     AdminStatsController, AdminUserController,
@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\{
 
 /*
 |--------------------------------------------------------------------------
-| 🔓 PUBLIC ROUTES
+| PUBLIC ROUTES
 |--------------------------------------------------------------------------
 */
 Route::post('/register', [AuthController::class, 'register']);
@@ -30,21 +30,21 @@ Route::get('/booked-slots/{doctorId}/{date}', [AppointmentController::class, 'bo
 
 /*
 |--------------------------------------------------------------------------
-| 🔒 PROTECTED ROUTES
+| PROTECTED ROUTES
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:sanctum')->group(function () {
 
-    // 👤 Profil
+    // Profil
     Route::get('/profile',      [ProfileController::class, 'show']);
     Route::put('/profile/{id}', [ProfileController::class, 'update']);
 
-    // 📅 Rendez-vous
+    // Rendez-vous
     Route::post('/appointments',        [AppointmentController::class, 'store']);
     Route::get('/appointments',         [AppointmentController::class, 'patientAppointments']);
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy']);
 
-    // 🧑‍⚕️ Médecin
+    // ‍Médecin
     Route::get('/doctor/appointments',  [AppointmentController::class, 'doctorAppointments']);
     Route::put('/appointments/{id}',    [AppointmentController::class, 'updateStatus']);
 
@@ -54,19 +54,29 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/doctor/patients',                            [DoctorController::class, 'myPatients']);
     Route::get('/doctor/patients/{patientId}/prescriptions',  [DoctorController::class, 'patientPrescriptions']);
 
-    // 💬 Messages
-    Route::post('/messages',                [MessageController::class, 'send']);
-    Route::get('/messages/{user1}/{user2}', [MessageController::class, 'getMessages']);
-    Route::get('/conversations',            [MessageController::class, 'getConversations']);
+    // Messages
+    Route::get('/conversations',          [MessageController::class, 'getConversations']);
+    Route::get('/messages/contacts',      [MessageController::class, 'contacts']);
+    Route::get('/messages/unread-count',  [MessageController::class, 'unreadCount']);
+    Route::get('/messages/{userId}',      [MessageController::class, 'getMessages'])->whereNumber('userId');
+    Route::post('/messages',              [MessageController::class, 'send']);
+    Route::get('/messages/{id}/attachment', [MessageController::class, 'attachment'])->whereNumber('id');
 
-    // 💊 Prescriptions
+    // Notifications
+    Route::get('/notifications',              [NotificationController::class, 'index']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+    Route::post('/notifications/read-all',    [NotificationController::class, 'markAllAsRead']);
+    Route::post('/notifications/{id}/read',   [NotificationController::class, 'markAsRead']);
+    Route::delete('/notifications/{id}',      [NotificationController::class, 'destroy']);
+
+    // Prescriptions
     Route::get('/prescriptions',        [PrescriptionController::class, 'index']);
     Route::post('/prescriptions',       [PrescriptionController::class, 'store']);
     Route::delete('/prescriptions/{id}',[PrescriptionController::class, 'destroy']);
 
     /*
     |--------------------------------------------------------------------------
-    | 🛡️ ADMIN
+    | ADMIN
     |--------------------------------------------------------------------------
     */
     Route::middleware('admin')->prefix('admin')->group(function () {

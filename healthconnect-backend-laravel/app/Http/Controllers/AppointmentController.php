@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Notifier;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +102,16 @@ class AppointmentController extends Controller
             'status'     => 'pending',
         ]);
 
+        $patient = Auth::user();
+        Notifier::send(
+            $appointment->doctor,
+            'appointment_new',
+            'Nouvelle demande de rendez-vous',
+            "{$patient->name} souhaite un rendez-vous " . Notifier::when($appointment)
+                . ($appointment->reason ? " : {$appointment->reason}" : '.'),
+            '/doctor/appointments'
+        );
+
         return response()->json([
             'message'     => 'Rendez-vous créé',
             'appointment' => $appointment,
@@ -121,13 +132,21 @@ class AppointmentController extends Controller
 
         // Admin peut tout modifier
         if ($user->role === 'admin') {
+            $previous = $appointment->status;
             $appointment->update(['status' => $request->status]);
+            if ($previous !== $appointment->status) {
+                self::notifyStatusChange($appointment, true);
+            }
             return response()->json(['message' => 'Statut mis à jour', 'appointment' => $appointment]);
         }
 
         // Médecin : seulement ses propres RDV
         if ($user->role === 'doctor' && $appointment->doctor_id === $user->id) {
+            $previous = $appointment->status;
             $appointment->update(['status' => $request->status]);
+            if ($previous !== $appointment->status) {
+                self::notifyStatusChange($appointment, false);
+            }
             return response()->json(['message' => 'Statut mis à jour', 'appointment' => $appointment]);
         }
 
@@ -153,7 +172,57 @@ class AppointmentController extends Controller
 
         $appointment->delete();
 
+        if ($user->id === $appointment->patient_id) {
+            Notifier::send(
+                $appointment->doctor,
+                'appointment_cancelled',
+                'Rendez-vous annulé',
+                "{$user->name} a annulé son rendez-vous du " . substr(Notifier::when($appointment), 3) . '.',
+                '/doctor/appointments'
+            );
+        } else {
+            self::notifyCancelledByAdmin($appointment);
+        }
+
         return response()->json(['message' => 'Rendez-vous annulé']);
+    }
+
+    /** Prévient le patient (et le médecin si c'est l'administration qui agit) d'un changement de statut */
+    public static function notifyStatusChange(Appointment $appointment, bool $byAdmin): void
+    {
+        $doctor = Notifier::doctorName($appointment->doctor);
+        $when = Notifier::when($appointment);
+
+        [$kind, $title, $body] = match ($appointment->status) {
+            'accepted'  => ['appointment_accepted', 'Rendez-vous confirmé', "Votre rendez-vous avec {$doctor} {$when} est confirmé."],
+            'rejected'  => ['appointment_rejected', 'Rendez-vous refusé', "Votre demande de rendez-vous avec {$doctor} {$when} n'a pas pu être acceptée. Vous pouvez choisir un autre créneau."],
+            'completed' => ['appointment_completed', 'Consultation terminée', "Votre consultation avec {$doctor} est terminée. Retrouvez vos éventuelles ordonnances dans votre espace."],
+            default     => ['appointment_updated', 'Rendez-vous mis à jour', "Votre rendez-vous avec {$doctor} {$when} est de nouveau en attente."],
+        };
+        Notifier::send($appointment->patient, $kind, $title, $body, '/patient/appointments');
+
+        if ($byAdmin) {
+            $labels = ['pending' => 'en attente', 'accepted' => 'confirmé', 'rejected' => 'refusé', 'completed' => 'terminé'];
+            Notifier::send(
+                $appointment->doctor,
+                'appointment_updated',
+                'Rendez-vous modifié par l\'administration',
+                "Le rendez-vous de {$appointment->patient?->name} {$when} est maintenant {$labels[$appointment->status]}.",
+                '/doctor/appointments'
+            );
+        }
+    }
+
+    /** Prévient patient et médecin qu'un rendez-vous a été supprimé par l'administration */
+    public static function notifyCancelledByAdmin(Appointment $appointment): void
+    {
+        $when = substr(Notifier::when($appointment), 3);
+        Notifier::send($appointment->patient, 'appointment_cancelled', 'Rendez-vous annulé',
+            "Votre rendez-vous avec " . Notifier::doctorName($appointment->doctor) . " du {$when} a été annulé par l'administration.",
+            '/patient/appointments');
+        Notifier::send($appointment->doctor, 'appointment_cancelled', 'Rendez-vous annulé',
+            "Le rendez-vous de {$appointment->patient?->name} du {$when} a été annulé par l'administration.",
+            '/doctor/appointments');
     }
 
     /**

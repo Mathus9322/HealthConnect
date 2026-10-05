@@ -20,7 +20,7 @@ class PatientProfile extends Model
         'emergency_contact'
     ];
 
-    // 🔹 Relation avec User
+    // Relation avec User
     public function user()
     {
         return $this->belongsTo(User::class);

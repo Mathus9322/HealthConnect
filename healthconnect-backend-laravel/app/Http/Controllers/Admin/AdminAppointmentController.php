@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Http\Request;
 
 class AdminAppointmentController extends Controller
@@ -53,7 +54,11 @@ class AdminAppointmentController extends Controller
             'status' => 'required|in:pending,accepted,rejected,completed',
         ]);
 
+        $previous = $appointment->status;
         $appointment->update(['status' => $request->status]);
+        if ($previous !== $appointment->status) {
+            AppointmentController::notifyStatusChange($appointment, true);
+        }
 
         return response()->json([
             'message'     => 'Statut du rendez-vous mis à jour.',
@@ -68,6 +73,11 @@ class AdminAppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->delete();
+
+        // Prévenir seulement pour un rendez-vous encore à venir
+        if (in_array($appointment->status, ['pending', 'accepted'])) {
+            AppointmentController::notifyCancelledByAdmin($appointment);
+        }
 
         return response()->json([
             'message' => 'Rendez-vous supprimé avec succès.'

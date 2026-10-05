@@ -15,26 +15,34 @@ class UserSeeder extends Seeder
         // Médecins
         $doctors = [
             [
-                'name' => 'Sarah Martin',
-                'email' => 'sarah.martin@example.com',
+                'name' => 'Aminata Diop',
+                'email' => 'aminata.diop@example.com',
+                'avatar' => '/avatars/aminata-diop.svg',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
             [
-                'name' => 'John Doe',
-                'email' => 'john.doe@example.com',
+                'name' => 'Moussa Ndiaye',
+                'email' => 'moussa.ndiaye@example.com',
+                'avatar' => '/avatars/moussa-ndiaye.svg',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
             [
-                'name' => 'Emily Davis',
-                'email' => 'emily.davis@example.com',
+                'name' => 'Fatou Sow',
+                'email' => 'fatou.sow@example.com',
+                'avatar' => '/avatars/fatou-sow.svg',
                 'password' => Hash::make('password'),
                 'role' => 'doctor',
             ],
         ];
 
-        $specialties = ['Cardiology', 'Dermatology', 'Pediatrics'];
+        $specialties = ['Cardiologie', 'Dermatologie', 'Pédiatrie'];
+        $locations = [
+            ['Dakar', 'Point E', 14.6950, -17.4650],
+            ['Thiès', 'Thiès Ville', 14.7910, -16.9256],
+            ['Saint-Louis', 'Saint-Louis', 16.0326, -16.4818],
+        ];
         $bios = [
             'Médecin passionné avec plus de 10 ans d\'expérience dans le domaine de la santé.',
             'Spécialisé en dermatologie, avec une approche centrée sur le patient.',
@@ -46,15 +54,20 @@ class UserSeeder extends Seeder
             ['Tuesday' => ['08H-16H'], 'Wednesday' => ['08H-16H'], 'Friday' => ['08H-16H']],
         ];
         $experiences = ['10', '15', '20'];
-        $prices = [50, 75, 100];
+        $prices = [10000, 15000, 25000]; // en F CFA
 
         foreach ($doctors as $doc) {
             $user = User::create($doc);
+            [$region, $locality, $latitude, $longitude] = $locations[array_rand($locations)];
             $user->doctorProfile()->create([
                 'specialty' => $specialties[array_rand($specialties)],
                 'experience' => $experiences[array_rand($experiences)],
                 'bio' => $bios[array_rand($bios)],
                 'price' => $prices[array_rand($prices)],
+                'region' => $region,
+                'locality' => $locality,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
                 'available_time' => json_encode($available_times[array_rand($available_times)]),
             ]);
         }

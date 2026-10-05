@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\PatientProfile;
 use App\Models\DoctorProfile;
+use App\Services\Notifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +18,8 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
+            // Jamais "admin" via l'inscription publique
+            'role' => 'nullable|in:patient,doctor',
         ]);
 
         $user = User::create([
@@ -36,6 +39,14 @@ class AuthController extends Controller
             ]);
         }
 
+        Notifier::send(
+            Notifier::admins(),
+            'user_registered',
+            $user->role === 'doctor' ? 'Nouveau médecin inscrit' : 'Nouveau patient inscrit',
+            "{$user->name} ({$user->email}) vient de créer un compte.",
+            '/admin/users'
+        );
+
         // Create token for immediate login
         $token = $user->createToken('api-token')->plainTextToken;
 
@@ -45,7 +56,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // 🔹 Login
+    // Login
     public function login(Request $request)
     {
         $request->validate([

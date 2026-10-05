@@ -23,7 +23,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // 🔹 Relations
+    // Relations
 
     // Patient Profile
     public function patientProfile()

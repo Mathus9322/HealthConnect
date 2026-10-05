@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prescription;
+use App\Services\Notifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,6 +62,14 @@ class PrescriptionController extends Controller
             'patient_id'  => $request->patient_id,
             'description' => $request->description,
         ]);
+
+        Notifier::send(
+            $prescription->patient,
+            'prescription_new',
+            'Nouvelle ordonnance',
+            "Dr {$user->name} vous a prescrit une ordonnance.",
+            '/patient/prescriptions'
+        );
 
         return response()->json([
             'message'      => 'Prescription créée.',

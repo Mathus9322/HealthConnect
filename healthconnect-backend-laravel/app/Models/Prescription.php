@@ -12,13 +12,13 @@ class Prescription extends Model
         'description'
     ];
 
-    // 🔹 Doctor
+    // Doctor
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-    // 🔹 Patient
+    // Patient
     public function patient()
     {
         return $this->belongsTo(User::class, 'patient_id');

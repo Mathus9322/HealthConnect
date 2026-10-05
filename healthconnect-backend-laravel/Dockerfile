@@ -21,6 +21,9 @@ RUN docker-php-ext-install \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Limites d'upload (fichiers joints de la messagerie)
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 WORKDIR /var/www
 
 COPY . .
